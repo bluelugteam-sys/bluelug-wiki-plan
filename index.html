@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Blue Lug — Notion 全体構造 v2</title>
+<title>Blue Lug — Notion 全体構造 v3</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700;900&family=DM+Mono:wght@400;500&display=swap');
 
@@ -15,14 +15,10 @@
   --border: #232830;
   --border2: #2e3440;
   --orange: #f06a0f;
-  --orange-dim: rgba(240,106,15,0.12);
   --blue: #4a8fff;
   --green: #22c55e;
   --purple: #a855f7;
-  --yellow: #eab308;
   --cyan: #06b6d4;
-  --red: #ef4444;
-  --pink: #ec4899;
   --text: #eeecea;
   --text2: #a0a8b8;
   --text3: #5a6275;
@@ -32,7 +28,6 @@
 html { scroll-behavior: smooth; }
 body { font-family: 'Noto Sans JP', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-/* NAV */
 nav {
   position: fixed; top:0; left:0; right:0; z-index:100;
   background: rgba(8,9,9,0.95); backdrop-filter: blur(12px);
@@ -48,9 +43,7 @@ nav {
   text-decoration: none; transition: all 0.2s; text-transform: uppercase;
 }
 .nav-link:hover { color: var(--text); background: var(--s2); }
-.nav-link.active { color: var(--orange); }
 
-/* HERO */
 .hero {
   min-height: 100vh; display: flex; flex-direction: column;
   justify-content: center; padding: 100px 60px 60px; position: relative; overflow: hidden;
@@ -81,7 +74,6 @@ nav {
 .stat-val { font-family: 'Bebas Neue', sans-serif; font-size: 38px; line-height: 1; color: var(--orange); }
 .stat-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--text3); text-transform: uppercase; }
 
-/* SECTION */
 .section { padding: 72px 60px; border-top: 1px solid var(--border); }
 .section-label {
   font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 4px;
@@ -92,389 +84,143 @@ nav {
 .section-h2 { font-family: 'Bebas Neue', sans-serif; font-size: 44px; letter-spacing: 2px; margin-bottom: 44px; line-height: 1; }
 .section-h2 em { color: var(--orange); font-style: normal; }
 
-/* ── SECTION 1: OVERVIEW STRUCTURE ── */
-.overview {
+/* STRUCTURE */
+.structure {
+  max-width: 900px; margin: 0 auto;
   display: flex; flex-direction: column; align-items: center; gap: 0;
-  max-width: 1000px; margin: 0 auto;
 }
+.st-connector { width: 2px; height: 40px; background: linear-gradient(to bottom, var(--orange), var(--border2)); }
 
-.ov-layer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+.st-box {
+  width: 100%; background: var(--s1); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 28px;
+  display: flex; align-items: center; gap: 20px;
 }
-
-.ov-connector {
-  width: 2px; height: 40px;
-  background: linear-gradient(to bottom, var(--orange), var(--border2));
-}
-
-.ov-box {
-  width: 100%;
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 20px 28px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.ov-box.top {
+.st-box.top {
   background: linear-gradient(135deg, #1a0d03, #0f0c1a);
   border: 2px solid var(--orange);
   box-shadow: 0 0 40px rgba(240,106,15,0.1);
 }
+.st-box-icon { font-size: 28px; flex-shrink: 0; }
+.st-box-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 2px; color: var(--orange); margin-bottom: 3px; }
+.st-box-desc { font-size: 12px; color: var(--text2); }
 
-.ov-box-icon { font-size: 28px; flex-shrink: 0; }
-.ov-box-content { flex: 1; }
-.ov-box-title { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
-.ov-box-desc { font-size: 12px; color: var(--text2); }
-
-.ov-split {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
+.st-db-grid {
+  width: 100%; display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
   position: relative;
 }
-
-.ov-split::before {
-  content: '';
-  position: absolute;
-  top: -40px; left: 25%; width: 50%;
+.st-db-grid::before {
+  content: ''; position: absolute; top: -40px; left: 10%; width: 80%;
   height: 2px; background: var(--border2);
 }
 
-.ov-split-connector-l, .ov-split-connector-r {
-  position: absolute;
-  top: -40px;
+.st-db {
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 12px; padding: 16px 14px;
+  display: flex; flex-direction: column; gap: 6px;
+  position: relative;
+}
+.st-db::before {
+  content: ''; position: absolute; top: -40px; left: 50%;
   width: 2px; height: 40px;
   background: linear-gradient(to bottom, transparent, var(--border2));
 }
-.ov-split-connector-l { left: 25%; }
-.ov-split-connector-r { left: 75%; }
-
-.ov-panel {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
+.st-db.hub { border-color: var(--orange); background: rgba(240,106,15,0.05); }
+.st-db-icon { font-size: 20px; }
+.st-db-name { font-size: 12px; font-weight: 700; }
+.st-db-badge {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  padding: 2px 6px; border-radius: 3px; display: inline-block;
+  background: var(--s2); color: var(--text3);
 }
+.st-db.hub .st-db-badge { background: rgba(240,106,15,0.15); color: var(--orange); }
+.st-db.done .st-db-badge { background: rgba(34,197,94,0.12); color: var(--green); }
+.st-db.next .st-db-badge { background: rgba(74,143,255,0.12); color: var(--blue); }
 
-.ov-panel-header {
-  padding: 14px 18px;
-  display: flex; align-items: center; gap: 10px;
-  border-bottom: 1px solid var(--border);
+/* FLOW */
+.flow-grid {
+  max-width: 900px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 100px 1fr; gap: 0; align-items: center;
 }
+.flow-col { display: flex; flex-direction: column; gap: 12px; }
 
-.ov-panel-icon { font-size: 18px; }
-.ov-panel-title { font-size: 14px; font-weight: 700; flex: 1; }
-.ov-panel-badge {
-  font-family: 'DM Mono', monospace; font-size: 9px;
-  padding: 2px 7px; border-radius: 3px;
+.flow-box {
+  background: var(--s1); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px;
 }
+.flow-box.talknote { border-left: 3px solid var(--purple); }
+.flow-box.notion { border-left: 3px solid var(--green); }
+.flow-box-title { font-size: 14px; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+.flow-box-desc { font-size: 11px; color: var(--text2); line-height: 1.7; }
 
-.ov-panel-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
-
-.ov-item {
-  font-size: 11px; color: var(--text2);
-  padding: 5px 10px; border-radius: 6px;
-  background: var(--s2);
-  display: flex; align-items: center; gap: 6px;
+.flow-arrow {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
 }
-.ov-item::before { content: '—'; color: var(--text3); font-size: 10px; }
-.ov-item.done { color: var(--green); }
-.ov-item.done::before { content: '✓'; color: var(--green); }
-.ov-item.new { color: var(--orange); }
-.ov-item.new::before { content: '★'; color: var(--orange); }
-.ov-item.key { color: var(--blue); }
-.ov-item.key::before { content: '◆'; color: var(--blue); font-size: 8px; }
+.flow-arrow-line { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, var(--orange), transparent); }
+.flow-arrow-head { color: var(--orange); font-size: 18px; }
+.flow-arrow-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--orange); letter-spacing: 1px; text-align: center; }
 
-.panel-green .ov-panel-header { border-top: 3px solid var(--green); }
-.panel-green .ov-panel-badge { background: rgba(34,197,94,0.12); color: var(--green); }
-.panel-blue .ov-panel-header { border-top: 3px solid var(--blue); }
-.panel-blue .ov-panel-badge { background: rgba(74,143,255,0.12); color: var(--blue); }
-.panel-orange .ov-panel-header { border-top: 3px solid var(--orange); }
-.panel-orange .ov-panel-badge { background: rgba(240,106,15,0.12); color: var(--orange); }
-.panel-purple .ov-panel-header { border-top: 3px solid var(--purple); }
-.panel-purple .ov-panel-badge { background: rgba(168,85,247,0.12); color: var(--purple); }
-
-/* ── SECTION 2: KNOWLEDGE FLOW ── */
-.knowledge-flow {
-  max-width: 900px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 80px 1fr;
-  gap: 0;
-  align-items: start;
-}
-
-.kf-col { display: flex; flex-direction: column; gap: 12px; }
-
-.kf-dept {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--purple);
-  border-radius: 10px;
-  padding: 14px 16px;
-}
-
-.kf-dept-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
-.kf-dept-desc { font-size: 11px; color: var(--text3); }
-
-.kf-arrow-col {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding-top: 20px;
-}
-
-.kf-arrow-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: default;
-}
-
-.kf-arrow-line { width: 1px; height: 24px; background: linear-gradient(to bottom, transparent, var(--orange), transparent); }
-.kf-arrow-head { color: var(--orange); font-size: 14px; }
-.kf-arrow-label { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--orange); letter-spacing: 1px; text-align: center; }
-
-.kf-flag {
-  background: rgba(240,106,15,0.06);
-  border: 1px solid rgba(240,106,15,0.25);
-  border-radius: 8px;
-  padding: 10px 14px;
-  font-size: 11px;
-  color: var(--orange);
-  text-align: center;
+.flow-rule {
+  background: rgba(240,106,15,0.06); border: 1px solid rgba(240,106,15,0.2);
+  border-radius: 8px; padding: 10px 14px; font-size: 11px; color: var(--orange); text-align: center;
   margin: 8px 0;
 }
 
-.kf-global {
-  background: linear-gradient(135deg, #0f1a0a, #080f08);
-  border: 2px solid var(--green);
-  border-radius: 14px;
-  padding: 20px;
-  box-shadow: 0 0 24px rgba(34,197,94,0.06);
+/* NOTION HOME */
+.home-preview {
+  max-width: 700px; margin: 0 auto;
+  background: var(--s1); border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
 }
-
-.kf-global-title {
-  font-size: 14px; font-weight: 700;
-  color: var(--green); margin-bottom: 10px;
-  display: flex; align-items: center; gap: 6px;
-}
-
-.kf-global-items { display: flex; flex-direction: column; gap: 6px; }
-
-.kf-global-item {
-  font-size: 11px; color: var(--text2);
-  background: rgba(34,197,94,0.06);
-  border: 1px solid rgba(34,197,94,0.15);
-  padding: 5px 10px; border-radius: 5px;
-  display: flex; align-items: center; gap: 6px;
-}
-.kf-global-item::before { content: '↳'; color: var(--green); }
-
-/* ── SECTION 3: DEPT SPACES ── */
-.dept-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  max-width: 1100px;
-  margin: 0 auto 32px;
-}
-
-.dept-card {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-  transition: transform 0.2s, border-color 0.2s;
-}
-
-.dept-card:hover { transform: translateY(-2px); border-color: var(--border2); }
-
-.dept-card-header {
-  padding: 12px 16px;
-  display: flex; align-items: center; gap: 10px;
+.home-titlebar {
+  background: var(--s2); padding: 10px 16px;
+  display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid var(--border);
 }
-
-.dept-color { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-.dept-name { font-size: 13px; font-weight: 700; flex: 1; }
-.dept-count { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); }
-
-.dept-card-body { padding: 10px 12px; display: flex; flex-direction: column; gap: 4px; }
-
-.dept-content-item {
-  font-size: 11px; color: var(--text2);
+.home-dot { width: 10px; height: 10px; border-radius: 50%; }
+.home-url { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text3); margin-left: 8px; }
+.home-body { padding: 32px 40px; }
+.home-title { font-family: 'Bebas Neue', sans-serif; font-size: 32px; letter-spacing: 2px; margin-bottom: 20px; }
+.home-section { margin-bottom: 20px; }
+.home-section-label {
+  font-size: 13px; font-weight: 700; margin-bottom: 8px;
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
   display: flex; align-items: center; gap: 6px;
-  padding: 3px 0;
 }
-.dept-content-item::before { content: '·'; color: var(--text3); font-size: 16px; line-height: 0; }
-
-.dept-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 8px;
-  font-family: 'DM Mono', monospace;
-  font-size: 9px;
-  padding: 3px 8px;
-  border-radius: 4px;
-  background: rgba(240,106,15,0.08);
-  color: var(--orange);
-  border: 1px solid rgba(240,106,15,0.2);
+.home-item {
+  font-size: 12px; color: var(--text2); padding: 5px 8px;
+  display: flex; align-items: center; gap: 8px; border-radius: 5px;
+}
+.home-item:hover { background: var(--s2); }
+.home-item-icon { font-size: 14px; }
+.home-item-badge {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  padding: 1px 5px; border-radius: 2px;
+  background: rgba(240,106,15,0.12); color: var(--orange);
+  margin-left: auto;
 }
 
-.expandable-note {
-  max-width: 1100px;
-  margin: 0 auto;
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-left: 3px solid var(--cyan);
-  border-radius: 10px;
-  padding: 16px 20px;
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.8;
+/* ROADMAP */
+.roadmap {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px;
 }
-
-.expandable-note strong { color: var(--cyan); }
-
-/* ── SECTION 4: NOTION IMPLEMENTATION ── */
-.impl-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.impl-card {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 24px;
-}
-
-.impl-card-title {
-  font-size: 14px; font-weight: 700;
-  margin-bottom: 16px;
-  display: flex; align-items: center; gap: 8px;
-}
-
-.impl-steps { display: flex; flex-direction: column; gap: 10px; }
-
-.impl-step {
-  display: flex; gap: 12px; align-items: flex-start;
-}
-
-.impl-step-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20px; color: var(--orange);
-  line-height: 1; flex-shrink: 0; width: 20px;
-}
-
-.impl-step-body {}
-.impl-step-title { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
-.impl-step-desc { font-size: 11px; color: var(--text2); line-height: 1.6; }
-
-.impl-code {
-  font-family: 'DM Mono', monospace;
-  font-size: 11px;
-  background: var(--s3);
-  border: 1px solid var(--border2);
-  border-radius: 6px;
-  padding: 10px 14px;
-  color: var(--green);
-  margin-top: 8px;
-  line-height: 1.8;
-}
-
-/* ── SECTION 5: ROADMAP ── */
-.roadmap-timeline {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2px;
-}
-
-.rm {
-  background: var(--s1);
-  border: 1px solid var(--border);
-  padding: 24px 20px;
-  position: relative;
-  overflow: hidden;
-}
-
+.rm { background: var(--s1); border: 1px solid var(--border); padding: 24px 20px; position: relative; overflow: hidden; }
 .rm:first-child { border-radius: 14px 0 0 14px; }
 .rm:last-child { border-radius: 0 14px 14px 0; }
 .rm.done { background: #0a0f0a; border-color: rgba(34,197,94,0.3); }
-.rm.now { background: #0a0c14; border-color: var(--blue); box-shadow: inset 0 0 32px rgba(74,143,255,0.04); }
-
-.rm-watermark {
-  position: absolute; top: 8px; right: 10px;
-  font-family: 'Bebas Neue', sans-serif; font-size: 56px;
-  opacity: 0.07; line-height: 1; pointer-events: none;
-}
-
-.rm-tag {
-  font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px;
-  text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
-  display: inline-block; margin-bottom: 10px;
-}
-
+.rm.now { background: #0a0c14; border-color: var(--blue); }
+.rm-watermark { position: absolute; top: 8px; right: 10px; font-family: 'Bebas Neue', sans-serif; font-size: 56px; opacity: 0.07; line-height: 1; pointer-events: none; }
+.rm-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; display: inline-block; margin-bottom: 10px; }
 .rm.done .rm-tag { background: rgba(34,197,94,0.12); color: var(--green); }
 .rm.now .rm-tag { background: rgba(74,143,255,0.12); color: var(--blue); }
 .rm:not(.done):not(.now) .rm-tag { background: var(--s2); color: var(--text3); }
-
 .rm-title { font-size: 13px; font-weight: 700; margin-bottom: 14px; line-height: 1.4; }
-
-.rm-item {
-  font-size: 11px; color: var(--text2);
-  display: flex; align-items: flex-start; gap: 6px;
-  margin-bottom: 6px; line-height: 1.5;
-}
-
+.rm-item { font-size: 11px; color: var(--text2); display: flex; align-items: flex-start; gap: 6px; margin-bottom: 6px; line-height: 1.5; }
 .rm-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 .rm.done .rm-dot { background: var(--green); }
 .rm.now .rm-dot { background: var(--blue); box-shadow: 0 0 5px var(--blue); }
 .rm:not(.done):not(.now) .rm-dot { background: var(--text3); }
 .rm.done .rm-item { color: var(--green); }
-.rm.now .rm-item { color: var(--text); }
 
-/* DB/PAGE badges */
-.type-badge {
-  font-family: 'DM Mono', monospace;
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 1px;
-  padding: 2px 6px;
-  border-radius: 3px;
-  flex-shrink: 0;
-  text-transform: uppercase;
-}
-.type-db {
-  background: rgba(240,106,15,0.15);
-  color: var(--orange);
-  border: 1px solid rgba(240,106,15,0.3);
-}
-.type-page {
-  background: rgba(90,98,117,0.2);
-  color: var(--text3);
-  border: 1px solid rgba(90,98,117,0.25);
-}
-
-/* animations */
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 .section > * { animation: fadeUp 0.5s ease both; }
 ::-webkit-scrollbar { width: 4px; }
@@ -487,10 +233,9 @@ nav {
 <nav>
   <div class="nav-logo">BLUE LUG</div>
   <div class="nav-links">
-    <a class="nav-link" href="#overview">全体構造</a>
+    <a class="nav-link" href="#structure">全体構造</a>
     <a class="nav-link" href="#flow">ナレッジフロー</a>
-    <a class="nav-link" href="#depts">部署スペース</a>
-    <a class="nav-link" href="#impl">実装方法</a>
+    <a class="nav-link" href="#home">Wikiホーム</a>
     <a class="nav-link" href="#roadmap">ロードマップ</a>
   </div>
 </nav>
@@ -500,188 +245,133 @@ nav {
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-content">
-    <div class="hero-eyebrow">Notion Master Plan v2 — 2026</div>
+    <div class="hero-eyebrow">Notion Master Plan v3 — 2026</div>
     <h1 class="hero-h1">
       <div>BLUE LUG</div>
-      <div class="accent">全体構造 v2</div>
+      <div class="accent">全体構造 v3</div>
     </h1>
     <p class="hero-desc">
-      部署ごとの自由スペース＋全体への選択的公開。<br>
-      10部署・柔軟な追加対応・Talknote移行を含む<br>完全リニューアル版マスタープラン。
+      部署内ノウハウはTalknoteで蓄積。<br>
+      全社共有したいものだけNotionへ。<br>
+      シンプルな役割分担で確実に定着させる設計。
     </p>
     <div class="hero-stats">
       <div class="stat"><span class="stat-val">68</span><span class="stat-label">メンバー</span></div>
-      <div class="stat"><span class="stat-val">10</span><span class="stat-label">部署</span></div>
       <div class="stat"><span class="stat-val">5</span><span class="stat-label">DB</span></div>
+      <div class="stat"><span class="stat-val">12</span><span class="stat-label">部署</span></div>
       <div class="stat"><span class="stat-val">400+</span><span class="stat-label">ブランド</span></div>
-      <div class="stat"><span class="stat-val">5</span><span class="stat-label">フェーズ</span></div>
+      <div class="stat"><span class="stat-val">4</span><span class="stat-label">フェーズ</span></div>
     </div>
   </div>
 </div>
 
-<!-- ── SECTION 1: OVERVIEW ── -->
-<div class="section" id="overview">
+<!-- SECTION 1: STRUCTURE -->
+<div class="section" id="structure">
   <div class="section-label">Section 01</div>
   <h2 class="section-h2">Notion <em>全体構造</em></h2>
 
-  <div class="overview">
+  <div class="structure">
 
-    <!-- 玄関 -->
-    <div class="ov-layer">
-      <div class="ov-box top">
-        <div class="ov-box-icon">🏠</div>
-        <div class="ov-box-content">
-          <div class="ov-box-title" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;color:var(--orange);">社内Wiki ホーム</div>
-          <div class="ov-box-desc">全員の玄関口 — ここを開けば全ての情報にたどり着ける。全DBのリンクトビューが集約されている。</div>
-        </div>
-        <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(240,106,15,0.6);text-align:right;flex-shrink:0;">全68名<br>アクセス可</div>
+    <div class="st-box top" style="width:100%;">
+      <div class="st-box-icon">🏠</div>
+      <div>
+        <div class="st-box-title">Blue Lug 社内Wiki ホーム</div>
+        <div class="st-box-desc">全68名の玄関口。全DBへのリンクが集約されている。メンバーはここから全ての情報にアクセスできる。</div>
       </div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:rgba(240,106,15,0.6);text-align:right;flex-shrink:0;">全68名<br>アクセス可</div>
     </div>
 
-    <div class="ov-connector"></div>
+    <div class="st-connector"></div>
 
-    <!-- 2分割 -->
-    <div class="ov-split" style="position:relative;">
-      <div style="position:absolute;top:-40px;left:0;right:0;height:2px;background:var(--border2);"></div>
-      <div style="position:absolute;top:-40px;left:25%;width:2px;height:40px;background:linear-gradient(to bottom,transparent,var(--border2));"></div>
-      <div style="position:absolute;top:-40px;left:75%;width:2px;height:40px;background:linear-gradient(to bottom,transparent,var(--border2));"></div>
-
-      <!-- 左: 全社Wiki -->
-      <div class="ov-panel panel-green">
-        <div class="ov-panel-header">
-          <div class="ov-panel-icon">🌐</div>
-          <div class="ov-panel-title">全社ナレッジ（公開）</div>
-          <div class="ov-panel-badge">全員閲覧</div>
-        </div>
-        <div class="ov-panel-body">
-          <div class="ov-item new">💡 ナレッジDB（全社公開分）<span class="type-badge type-db">DB</span></div>
-          <div class="ov-item done">📋 ルール・規定<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item done">👥 メンバーDB リンクトビュー<span class="type-badge type-db">DB</span></div>
-          <div class="ov-item done">📦 ブランドDB リンクトビュー<span class="type-badge type-db">DB</span></div>
-          <div class="ov-item done">🏪 店舗/事務所情報 リンクトビュー<span class="type-badge type-db">DB</span></div>
-          <div class="ov-item key">🔑 各部署から「全体公開」フラグが立った記事が自動表示</div>
-        </div>
+    <div class="st-db-grid">
+      <div class="st-db hub">
+        <div class="st-db-icon">👥</div>
+        <div class="st-db-name">メンバーDB</div>
+        <div class="st-db-badge">HUB ✅</div>
       </div>
-
-      <!-- 右: 部署スペース -->
-      <div class="ov-panel panel-purple">
-        <div class="ov-panel-header">
-          <div class="ov-panel-icon">🏢</div>
-          <div class="ov-panel-title">部署スペース（限定）</div>
-          <div class="ov-panel-badge">部署内のみ</div>
-        </div>
-        <div class="ov-panel-body">
-          <div class="ov-item">🔧 店頭メカニックチーム<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">✂️ 縫製チーム<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">🎨 デザインチーム<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">🛒 オンラインストアチーム<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">📦 卸チーム<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">💻 Webエンジニアチーム<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">💰 経理総務<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">📷 撮影（スチル）<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">🎬 撮影（動画）<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item">🚚 倉庫物流<span class="type-badge type-page">PAGE</span></div>
-          <div class="ov-item new">＋ 今後追加される部署も同じ構造で作るだけ</div>
-        </div>
+      <div class="st-db done">
+        <div class="st-db-icon">🏪</div>
+        <div class="st-db-name">店舗/事務所情報DB</div>
+        <div class="st-db-badge">完成 ✅</div>
       </div>
-    </div>
-
-    <div class="ov-connector" style="background:linear-gradient(to bottom,var(--border2),var(--border));"></div>
-
-    <!-- DB層 -->
-    <div class="ov-panel panel-blue" style="width:100%;">
-      <div class="ov-panel-header">
-        <div class="ov-panel-icon">🗄️</div>
-        <div class="ov-panel-title">DB層（全DBの基盤）— メンバーDBをハブに全DBがRelationで繋がる</div>
-        <div class="ov-panel-badge">5DB</div>
+      <div class="st-db done">
+        <div class="st-db-icon">🏢</div>
+        <div class="st-db-name">国内代理店DB</div>
+        <div class="st-db-badge">完成 ✅</div>
       </div>
-      <div class="ov-panel-body" style="flex-direction:row;flex-wrap:wrap;gap:8px;">
-        <div class="ov-item done" style="flex:1;min-width:140px;">👥 メンバーDB ✅ HUB<span class="type-badge type-db">DB</span></div>
-        <div class="ov-item done" style="flex:1;min-width:140px;">🏪 店舗/事務所情報DB ✅<span class="type-badge type-db">DB</span></div>
-        <div class="ov-item done" style="flex:1;min-width:140px;">🏢 代理店DB ✅<span class="type-badge type-db">DB</span></div>
-        <div class="ov-item new" style="flex:1;min-width:140px;">📦 ブランドDB ⬜ 次回<span class="type-badge type-db">DB</span></div>
-        <div class="ov-item new" style="flex:1;min-width:140px;">💡 ナレッジDB ⬜ 予定<span class="type-badge type-db">DB</span></div>
+      <div class="st-db next">
+        <div class="st-db-icon">📦</div>
+        <div class="st-db-name">ブランドDB</div>
+        <div class="st-db-badge">整備中 ▶</div>
+      </div>
+      <div class="st-db next">
+        <div class="st-db-icon">💡</div>
+        <div class="st-db-name">ナレッジDB</div>
+        <div class="st-db-badge">運用開始 ▶</div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ── SECTION 2: KNOWLEDGE FLOW ── -->
+<!-- SECTION 2: KNOWLEDGE FLOW -->
 <div class="section" id="flow">
   <div class="section-label">Section 02</div>
-  <h2 class="section-h2">ナレッジ <em>公開フロー</em></h2>
+  <h2 class="section-h2">ナレッジ <em>フロー</em></h2>
 
-  <div class="knowledge-flow">
+  <div class="flow-grid">
 
-    <!-- 左: 部署ナレッジ -->
-    <div class="kf-col">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--purple);text-transform:uppercase;margin-bottom:8px;">部署スペース（非公開）</div>
+    <!-- 左: Talknote -->
+    <div class="flow-col">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--purple);text-transform:uppercase;margin-bottom:4px;">部署内（Talknote）</div>
 
-      <div class="kf-dept">
-        <div class="kf-dept-name">🔧 店頭メカニックチーム</div>
-        <div class="kf-dept-desc">工具の使い方 / 修理手順 / 仕入れメモ...</div>
+      <div class="flow-box talknote">
+        <div class="flow-box-title">💬 部署内チャンネル</div>
+        <div class="flow-box-desc">日常のやりとり・メモ・ノウハウを気軽に書く。部署内メンバーのみが見られる。フォーマット不要。</div>
       </div>
-      <div class="kf-dept">
-        <div class="kf-dept-name">✂️ 縫製チーム</div>
-        <div class="kf-dept-desc">縫製パターン / 素材メモ / 発注記録...</div>
+
+      <div class="flow-box talknote">
+        <div class="flow-box-title">🔒 完全に隔離された空間</div>
+        <div class="flow-box-desc">他部署には見えない。機密情報・部署内だけの話もここに書ける。ノウハウが属人化せず部署内で蓄積される。</div>
       </div>
-      <div class="kf-dept">
-        <div class="kf-dept-name">🛒 オンラインストアチーム</div>
-        <div class="kf-dept-desc">商品登録手順 / LP制作メモ / KPI...</div>
-      </div>
-      <div class="kf-dept" style="border-left-color:var(--text3);opacity:0.6;">
-        <div class="kf-dept-name" style="font-size:11px;color:var(--text3);">他7部署も同じ構造...</div>
+
+      <div class="flow-rule">
+        「全社に共有すべきだ」<br>と思ったとき→Notionへ
       </div>
     </div>
 
-    <!-- 中: フロー矢印 -->
-    <div class="kf-arrow-col">
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;margin-bottom:16px;text-align:center;">メンバーが<br>フラグを立てる</div>
-
-      <div class="kf-flag">
-        🚩「全体公開」<br>プロパティ ON
-      </div>
-
-      <div class="kf-arrow-box" style="margin:8px 0;">
-        <div class="kf-arrow-line" style="height:40px;"></div>
-        <div class="kf-arrow-head">▼</div>
-      </div>
-
-      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--orange);letter-spacing:1px;text-align:center;">自動で全体<br>ナレッジに表示</div>
-
-      <div class="kf-arrow-box" style="margin:8px 0;">
-        <div class="kf-arrow-line" style="height:32px;"></div>
-      </div>
-
-      <div style="background:var(--s2);border:1px solid var(--border2);border-radius:8px;padding:10px 12px;font-size:10px;color:var(--text2);text-align:center;line-height:1.7;">
-        承認不要<br>メンバー自身が<br>判断・管理
-      </div>
+    <!-- 中: 矢印 -->
+    <div class="flow-arrow">
+      <div class="flow-arrow-line" style="height:60px;"></div>
+      <div class="flow-arrow-head">▶</div>
+      <div class="flow-arrow-label" style="margin:8px 0;">Notionに<br>まとめる</div>
+      <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);text-align:center;line-height:1.6;">Talknoteに<br>「📝まとめました<br>→[リンク]」<br>を貼って周知</div>
+      <div class="flow-arrow-line" style="height:60px;"></div>
     </div>
 
-    <!-- 右: 全体公開ナレッジ -->
-    <div class="kf-col">
-      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:8px;">全社ナレッジ（全員閲覧）</div>
+    <!-- 右: Notion -->
+    <div class="flow-col">
+      <div style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:4px;">全社共有（Notion）</div>
 
-      <div class="kf-global">
-        <div class="kf-global-title">🌐 ナレッジDB（全社公開ビュー）</div>
-        <div class="kf-global-items">
-          <div class="kf-global-item">入社したらまず読む（必読）</div>
-          <div class="kf-global-item">修理・メカニックTips（店頭→全体）</div>
-          <div class="kf-global-item">接客で使えるフレーズ（店頭→全体）</div>
-          <div class="kf-global-item">縫製素材の選び方（縫製→全体）</div>
-          <div class="kf-global-item">SNS投稿のガイドライン（撮影→全体）</div>
-          <div class="kf-global-item" style="color:var(--text3);">各部署から公開フラグが立ったもの全て...</div>
+      <div class="flow-box notion">
+        <div class="flow-box-title">💡 ナレッジDB（全社）</div>
+        <div class="flow-box-desc">全社員が閲覧・投稿できる。全社に残すべきナレッジだけを書く場所。部署を選択するだけで整理される。</div>
+      </div>
+
+      <div class="flow-box notion">
+        <div class="flow-box-title" style="color:var(--green);">✅ 書くもの</div>
+        <div class="flow-box-desc">
+          繰り返し聞かれること<br>
+          新メンバーに伝えたいこと<br>
+          他部署にも役立つ知識・手順
         </div>
       </div>
 
-      <div style="background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:4px;">
-        <div style="font-size:12px;font-weight:700;margin-bottom:8px;color:var(--text2);">NotionでのFilter設定</div>
-        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--green);background:var(--s3);border-radius:6px;padding:10px 12px;line-height:1.9;">
-          全体公開 ＝ チェック済み<br>
-          ↓<br>
-          このビューに自動表示<br>
-          部署スペースのビューは<br>全体公開 ＝ 未チェックでフィルター
+      <div class="flow-box" style="border-left:3px solid var(--text3);">
+        <div class="flow-box-title" style="color:var(--text3);">❌ 書かないもの</div>
+        <div class="flow-box-desc" style="color:var(--text3);">
+          部署内だけの一時的なメモ<br>
+          → Talknoteへ
         </div>
       </div>
     </div>
@@ -689,285 +379,59 @@ nav {
   </div>
 </div>
 
-<!-- ── SECTION 3: DEPT SPACES ── -->
-<div class="section" id="depts">
+<!-- SECTION 3: NOTION HOME PREVIEW -->
+<div class="section" id="home">
   <div class="section-label">Section 03</div>
-  <h2 class="section-h2">部署スペース <em>設計</em></h2>
+  <h2 class="section-h2">Wiki <em>ホーム構成</em></h2>
 
-  <div class="dept-grid">
+  <div class="home-preview">
+    <div class="home-titlebar">
+      <div class="home-dot" style="background:#ff5f57;"></div>
+      <div class="home-dot" style="background:#febc2e;"></div>
+      <div class="home-dot" style="background:#28c840;"></div>
+      <div class="home-url">Blue Lug / 🏠 Blue Lug 社内Wiki</div>
+    </div>
+    <div class="home-body">
+      <div class="home-title">🏠 Blue Lug 社内Wiki</div>
 
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#f87171;"></div>
-        <div class="dept-name">🔧 店頭メカニック</div><span class="type-badge type-page">PAGE</span>
+      <div class="home-section">
+        <div style="background:rgba(240,106,15,0.08);border:1px solid rgba(240,106,15,0.2);border-radius:8px;padding:12px 16px;font-size:12px;color:var(--text2);margin-bottom:20px;">
+          💡 チームのナレッジを蓄積し、仕組みや経験などの成果物が会社に残り継承できるようにする。
+        </div>
       </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">修理・整備の手順書</div>
-        <div class="dept-content-item">工具の使い方メモ</div>
-        <div class="dept-content-item">ブランド別技術ノート</div>
-        <div class="dept-content-item">お客様トラブル対応事例</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
+
+      <div class="home-section">
+        <div class="home-section-label">👥 メンバー・組織</div>
+        <div class="home-item"><span class="home-item-icon">🗄️</span> Members DB <span class="home-item-badge">DB</span></div>
+        <div class="home-item"><span class="home-item-icon">🗄️</span> 店舗/事務所情報DB <span class="home-item-badge">DB</span></div>
+      </div>
+
+      <div class="home-section">
+        <div class="home-section-label">💡 ナレッジ</div>
+        <div class="home-item"><span class="home-item-icon">🗄️</span> ナレッジDB <span class="home-item-badge">DB</span></div>
+      </div>
+
+      <div class="home-section">
+        <div class="home-section-label">📦 ブランド・取引先</div>
+        <div class="home-item"><span class="home-item-icon">🗄️</span> ブランドDB <span class="home-item-badge">DB</span></div>
+        <div class="home-item"><span class="home-item-icon">🗄️</span> 国内代理店DB <span class="home-item-badge">DB</span></div>
+      </div>
+
+      <div class="home-section">
+        <div style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+          管理者用 → Wikiの構造と手順書
+        </div>
       </div>
     </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#c084fc;"></div>
-        <div class="dept-name">✂️ 縫製チーム</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">縫製パターン・型紙</div>
-        <div class="dept-content-item">素材・仕入れ先メモ</div>
-        <div class="dept-content-item">生産スケジュール</div>
-        <div class="dept-content-item">品質チェックリスト</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#fb923c;"></div>
-        <div class="dept-name">🎨 デザインチーム</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">デザインガイドライン</div>
-        <div class="dept-content-item">ブランドカラー・フォント</div>
-        <div class="dept-content-item">制作物テンプレート</div>
-        <div class="dept-content-item">外部パートナー連絡先</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#60a5fa;"></div>
-        <div class="dept-name">🛒 オンラインストア</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">商品登録・更新手順</div>
-        <div class="dept-content-item">LP制作フロー</div>
-        <div class="dept-content-item">KPI・売上レポート</div>
-        <div class="dept-content-item">メール・CS対応テンプレ</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#34d399;"></div>
-        <div class="dept-name">📦 卸チーム</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">取引先・代理店リスト</div>
-        <div class="dept-content-item">発注フロー・スケジュール</div>
-        <div class="dept-content-item">海外直取引メモ</div>
-        <div class="dept-content-item">展示会・出張記録</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#38bdf8;"></div>
-        <div class="dept-name">💻 Webエンジニア</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">技術仕様・設計書</div>
-        <div class="dept-content-item">インフラ構成メモ</div>
-        <div class="dept-content-item">デプロイ手順</div>
-        <div class="dept-content-item">バグ・障害記録</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#fbbf24;"></div>
-        <div class="dept-name">💰 経理総務</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">経費精算フロー</div>
-        <div class="dept-content-item">給与・勤怠ルール</div>
-        <div class="dept-content-item">契約書・書類管理</div>
-        <div class="dept-content-item">備品発注・管理</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#f472b6;"></div>
-        <div class="dept-name">📷 撮影（スチル）</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">撮影セッティングメモ</div>
-        <div class="dept-content-item">SNS投稿ガイドライン</div>
-        <div class="dept-content-item">機材管理・予約</div>
-        <div class="dept-content-item">写真整理・保存ルール</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#a78bfa;"></div>
-        <div class="dept-name">🎬 撮影（動画）</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">YouTube制作フロー</div>
-        <div class="dept-content-item">編集テンプレート</div>
-        <div class="dept-content-item">機材・ロケ地メモ</div>
-        <div class="dept-content-item">投稿スケジュール管理</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:#6ee7b7;"></div>
-        <div class="dept-name">🚚 倉庫物流</div><span class="type-badge type-page">PAGE</span>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item">入出庫フロー</div>
-        <div class="dept-content-item">在庫管理ルール</div>
-        <div class="dept-content-item">配送業者・料金表</div>
-        <div class="dept-content-item">梱包・発送手順</div>
-        <div class="dept-badge">🚩 全体公開フラグで共有</div>
-      </div>
-    </div>
-
-    <div class="dept-card" style="border-style:dashed;opacity:0.6;">
-      <div class="dept-card-header">
-        <div class="dept-color" style="background:var(--text3);"></div>
-        <div class="dept-name" style="color:var(--text3);">＋ 新部署（追加予定）</div>
-      </div>
-      <div class="dept-card-body">
-        <div class="dept-content-item" style="color:var(--text3);">同じ構造をコピーするだけ</div>
-        <div class="dept-content-item" style="color:var(--text3);">ナレッジDBのカテゴリに追加</div>
-        <div class="dept-content-item" style="color:var(--text3);">柔軟に何部署でも対応</div>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="expandable-note">
-    💡 <strong>柔軟な追加対応の仕組み：</strong>
-    新しい部署が増えたら、①部署スペースページを新規作成、②ナレッジDBに「部署カテゴリ」の選択肢を追加するだけ。既存の構造を壊さずに何部署でも追加できます。
-    部署スペースのページ構成は全部署で共通テンプレートを使うので、<strong>「コピーして名前を変えるだけ」</strong>で追加完了。
   </div>
 </div>
 
-<!-- ── SECTION 4: IMPLEMENTATION ── -->
-<div class="section" id="impl">
-  <div class="section-label">Section 04</div>
-  <h2 class="section-h2">Notionでの <em>実装方法</em></h2>
-
-  <div class="impl-grid">
-
-    <div class="impl-card" style="border-top:3px solid var(--green);">
-      <div class="impl-card-title">💡 ナレッジDBの構造</div>
-      <div class="impl-code">
-        タイトル　　　　→ Title<br>
-        部署　　　　　　→ Multi-select<br>
-        全体公開　　　　→ <span style="color:var(--orange);">Checkbox ← ★ 核心</span><br>
-        重要度　　　　　→ Status（必読/参考/アーカイブ）<br>
-        オーナー　　　　→ Relation → メンバーDB<br>
-        Talknote元リンク→ URL<br>
-        最終更新日　　　→ Last edited time<br>
-        ステータス　　　→ Status（公開/下書き/要更新）
-      </div>
-    </div>
-
-    <div class="impl-card" style="border-top:3px solid var(--purple);">
-      <div class="impl-card-title">🏢 部署スペースのページ構成</div>
-      <div class="impl-steps">
-        <div class="impl-step">
-          <div class="impl-step-num">1</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">部署スペースページ（非公開）</div>
-            <div class="impl-step-desc">各部署のルートページ。メンバー権限を「部署メンバーのみ」に設定。</div>
-          </div>
-        </div>
-        <div class="impl-step">
-          <div class="impl-step-num">2</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">部署ナレッジ（リンクトビュー）</div>
-            <div class="impl-step-desc">ナレッジDBを「部署 ＝ この部署」でフィルターしたリンクトビューを埋め込む。</div>
-          </div>
-        </div>
-        <div class="impl-step">
-          <div class="impl-step-num">3</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">自由記述スペース</div>
-            <div class="impl-step-desc">議事録・メモ・アイデアを自由に書けるページ群。DBである必要はない。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="impl-card" style="border-top:3px solid var(--orange);">
-      <div class="impl-card-title">🌐 全体公開ビューの作り方</div>
-      <div class="impl-steps">
-        <div class="impl-step">
-          <div class="impl-step-num">1</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">ナレッジDBにフィルターを設定</div>
-            <div class="impl-step-desc">「全体公開 ＝ チェック済み」のフィルターをかけたリンクトビューを作成。</div>
-          </div>
-        </div>
-        <div class="impl-step">
-          <div class="impl-step-num">2</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">社内WikiホームにEmbedding</div>
-            <div class="impl-step-desc">このビューをWikiホームに貼り付ける。部署フラグが立つと自動で表示される。</div>
-          </div>
-        </div>
-        <div class="impl-step">
-          <div class="impl-step-num">3</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">部署スペースは逆フィルター</div>
-            <div class="impl-step-desc">「全体公開 ＝ 未チェック」でフィルターすると部署内専用の記事だけ表示。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="impl-card" style="border-top:3px solid var(--cyan);">
-      <div class="impl-card-title">🚩 全体公開フラグの運用</div>
-      <div class="impl-steps">
-        <div class="impl-step">
-          <div class="impl-step-num">1</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">誰でもフラグを立てられる</div>
-            <div class="impl-step-desc">承認不要。部署メンバーが自分の判断で「全体公開」にチェックを入れる。</div>
-          </div>
-        </div>
-        <div class="impl-step">
-          <div class="impl-step-num">2</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">フラグを立てたら周知する</div>
-            <div class="impl-step-desc">Talknoteで「Notionにまとめました」とリンクを貼るのがセットアクション。</div>
-          </div>
-        </div>
-        <div class="impl-step">
-          <div class="impl-step-num">3</div>
-          <div class="impl-step-body">
-            <div class="impl-step-title">取り下げも自由</div>
-            <div class="impl-step-desc">古くなったらフラグを外すだけ。全体ビューから自動で消える。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ── SECTION 5: ROADMAP ── -->
+<!-- SECTION 4: ROADMAP -->
 <div class="section" id="roadmap">
-  <div class="section-label">Section 05</div>
+  <div class="section-label">Section 04</div>
   <h2 class="section-h2">実装 <em>ロードマップ</em></h2>
 
-  <div class="roadmap-timeline">
+  <div class="roadmap">
 
     <div class="rm done">
       <div class="rm-watermark">P1</div>
@@ -975,50 +439,39 @@ nav {
       <div class="rm-title">DB基盤の構築</div>
       <div class="rm-item"><div class="rm-dot"></div>メンバーDB（68名）</div>
       <div class="rm-item"><div class="rm-dot"></div>店舗/事務所情報DB</div>
-      <div class="rm-item"><div class="rm-dot"></div>代理店DB整理</div>
-      <div class="rm-item"><div class="rm-dot"></div>メンバー↔拠点 Relation</div>
-      <div class="rm-item"><div class="rm-dot"></div>自己Relation（上司/部下）</div>
+      <div class="rm-item"><div class="rm-dot"></div>国内代理店DB</div>
+      <div class="rm-item"><div class="rm-dot"></div>ブランドDB（400件）</div>
+      <div class="rm-item"><div class="rm-dot"></div>ナレッジDB設計</div>
+      <div class="rm-item"><div class="rm-dot"></div>Wikiホーム整備</div>
     </div>
 
     <div class="rm now">
       <div class="rm-watermark">P2</div>
       <span class="rm-tag">▶ 次回</span>
-      <div class="rm-title">ブランドDB &amp; Wiki整備</div>
-      <div class="rm-item"><div class="rm-dot"></div>ブランドDB CSVインポート</div>
-      <div class="rm-item"><div class="rm-dot"></div>ブランド↔代理店 Relation</div>
-      <div class="rm-item"><div class="rm-dot"></div>WikiホームにリンクトビューEmbed</div>
-      <div class="rm-item"><div class="rm-dot"></div>ホームページ構造整理</div>
+      <div class="rm-title">DB整備 & 運用開始</div>
+      <div class="rm-item"><div class="rm-dot"></div>ブランドDB↔代理店DB Relation確認</div>
+      <div class="rm-item"><div class="rm-dot"></div>ナレッジDB運用開始</div>
+      <div class="rm-item"><div class="rm-dot"></div>既存Wikiからの切り替え準備</div>
     </div>
 
     <div class="rm">
       <div class="rm-watermark">P3</div>
-      <span class="rm-tag">⬜ 近日中</span>
-      <div class="rm-title">ナレッジDB &amp; 部署スペース</div>
-      <div class="rm-item"><div class="rm-dot"></div>ナレッジDB設計・作成</div>
-      <div class="rm-item"><div class="rm-dot"></div>全体公開フラグ設定</div>
-      <div class="rm-item"><div class="rm-dot"></div>部署スペース×10作成</div>
-      <div class="rm-item"><div class="rm-dot"></div>部署テンプレート作成</div>
-      <div class="rm-item"><div class="rm-dot"></div>Talknoteリンク貼り始め</div>
-    </div>
-
-    <div class="rm">
-      <div class="rm-watermark">P4</div>
       <span class="rm-tag">⬜ 展開</span>
-      <div class="rm-title">全社展開 &amp; 定着</div>
+      <div class="rm-title">全社展開 & 定着</div>
+      <div class="rm-item"><div class="rm-dot"></div>既存Wiki→新Wikiに切り替え</div>
       <div class="rm-item"><div class="rm-dot"></div>メンバーへの使い方共有</div>
-      <div class="rm-item"><div class="rm-dot"></div>各部署リーダーに権限付与</div>
       <div class="rm-item"><div class="rm-dot"></div>顔写真・担当業務入力</div>
       <div class="rm-item"><div class="rm-dot"></div>ブランド分類（担当者分担）</div>
     </div>
 
     <div class="rm">
-      <div class="rm-watermark">P5</div>
+      <div class="rm-watermark">P4</div>
       <span class="rm-tag">⬜ 完成</span>
-      <div class="rm-title">Talknote移行 &amp; 定着</div>
-      <div class="rm-item"><div class="rm-dot"></div>週3〜5件ナレッジ移行継続</div>
+      <div class="rm-title">Talknote連携 & 定着</div>
+      <div class="rm-item"><div class="rm-dot"></div>週3〜5件ナレッジ投稿継続</div>
+      <div class="rm-item"><div class="rm-dot"></div>Talknote→Notionリンク習慣化</div>
       <div class="rm-item"><div class="rm-dot"></div>「Notion検索」習慣の定着</div>
-      <div class="rm-item"><div class="rm-dot"></div>週1メンテナンスルール</div>
-      <div class="rm-item"><div class="rm-dot"></div>新部署追加フローの確立</div>
+      <div class="rm-item"><div class="rm-dot"></div>週1メンテナンスルール確立</div>
     </div>
 
   </div>
