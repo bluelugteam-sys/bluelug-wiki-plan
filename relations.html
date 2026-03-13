@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Lug — DB Relation 図解</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #080909;
+  --s1: #0f1012;
+  --s2: #161820;
+  --border: #232830;
+  --orange: #f06a0f;
+  --blue: #4a8fff;
+  --green: #22c55e;
+  --purple: #a855f7;
+  --cyan: #06b6d4;
+  --yellow: #eab308;
+  --text: #eeecea;
+  --text2: #a0a8b8;
+  --text3: #5a6275;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--bg); color: var(--text);
+  min-height: 100vh; padding: 48px 32px;
+}
+
+header {
+  text-align: center; margin-bottom: 52px;
+}
+.header-eyebrow {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 4px; color: var(--orange); text-transform: uppercase;
+  margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.header-eyebrow::before, .header-eyebrow::after { content:''; width:24px; height:1px; background:var(--orange); }
+h1 {
+  font-family: 'Bebas Neue', sans-serif; font-size: 48px;
+  letter-spacing: 3px; line-height: 1;
+}
+h1 span { color: var(--orange); }
+.header-sub { font-size: 12px; color: var(--text3); margin-top: 8px; }
+
+/* DIAGRAM */
+.diagram {
+  max-width: 1000px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 24px;
+  position: relative;
+}
+
+/* DB CARD */
+.db-card {
+  border-radius: 14px; padding: 20px;
+  position: relative; z-index: 2;
+  border: 1px solid var(--border);
+  background: var(--s1);
+  transition: transform 0.2s;
+}
+.db-card:hover { transform: translateY(-2px); }
+
+.db-card.members   { border-color: var(--blue);   background: rgba(74,143,255,0.05); grid-column: 2; grid-row: 1; }
+.db-card.dept      { border-color: var(--purple); background: rgba(168,85,247,0.05); grid-column: 1; grid-row: 2; }
+.db-card.knowledge { border-color: var(--orange); background: rgba(240,106,15,0.05); grid-column: 2; grid-row: 2; }
+.db-card.store     { border-color: var(--green);  background: rgba(34,197,94,0.05);  grid-column: 3; grid-row: 2; }
+.db-card.brand     { border-color: var(--yellow); background: rgba(234,179,8,0.05);  grid-column: 1; grid-row: 3; }
+.db-card.agent     { border-color: var(--cyan);   background: rgba(6,182,212,0.05);  grid-column: 3; grid-row: 3; }
+
+.db-icon { font-size: 28px; margin-bottom: 8px; }
+.db-name {
+  font-family: 'Bebas Neue', sans-serif; font-size: 20px;
+  letter-spacing: 2px; margin-bottom: 4px;
+}
+.db-name.blue   { color: var(--blue); }
+.db-name.purple { color: var(--purple); }
+.db-name.orange { color: var(--orange); }
+.db-name.green  { color: var(--green); }
+.db-name.yellow { color: var(--yellow); }
+.db-name.cyan   { color: var(--cyan); }
+
+.db-count {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  color: var(--text3); letter-spacing: 1px; margin-bottom: 14px;
+}
+
+.props { display: flex; flex-direction: column; gap: 5px; }
+.prop {
+  font-size: 11px; color: var(--text2);
+  display: flex; align-items: center; gap: 6px;
+  padding: 4px 8px; border-radius: 5px;
+  background: var(--s2);
+}
+.prop-type {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  padding: 1px 5px; border-radius: 2px; flex-shrink: 0;
+}
+.prop-type.title  { background: rgba(255,255,255,0.08); color: var(--text3); }
+.prop-type.rel    { background: rgba(240,106,15,0.15); color: var(--orange); }
+.prop-type.multi  { background: rgba(74,143,255,0.12); color: var(--blue); }
+.prop-type.auto   { background: rgba(34,197,94,0.12); color: var(--green); }
+.prop-type.check  { background: rgba(234,179,8,0.12); color: var(--yellow); }
+.prop-type.url    { background: rgba(6,182,212,0.12); color: var(--cyan); }
+
+/* SVG ARROWS */
+.arrows-layer {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none; z-index: 1;
+  overflow: visible;
+}
+
+/* LEGEND */
+.legend {
+  max-width: 1000px; margin: 36px auto 0;
+  display: flex; gap: 20px; flex-wrap: wrap;
+  padding: 16px 20px;
+  background: var(--s1); border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.legend-title {
+  font-family: 'DM Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; color: var(--text3); text-transform: uppercase;
+  width: 100%; margin-bottom: 4px;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--text2);
+}
+.legend-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+}
+.legend-line {
+  width: 20px; height: 2px; border-radius: 1px;
+}
+
+/* RELATION BADGES */
+.rel-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; padding: 2px 7px; border-radius: 3px;
+  margin-top: 6px; margin-right: 4px;
+  border: 1px solid;
+}
+
+/* 双方向ラベル */
+.bidirectional {
+  font-family: 'DM Mono', monospace; font-size: 8px;
+  color: var(--orange); letter-spacing: 1px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-eyebrow">Notion DB Structure</div>
+  <h1>BLUE LUG <span>DB関係図</span></h1>
+  <div class="header-sub">2026年3月12日時点</div>
+</header>
+
+<div class="diagram" id="diagram">
+
+  <!-- Members DB -->
+  <div class="db-card members" id="card-members">
+    <div class="db-icon">👥</div>
+    <div class="db-name blue">Members DB</div>
+    <div class="db-count">68名</div>
+    <div class="props">
+      <div class="prop"><span class="prop-type title">Title</span> 氏名</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> 部署DB ↔</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> ナレッジDB ↔（担当者逆）</div>
+      <div class="prop"><span class="prop-type auto">Auto</span> 作成日時</div>
+    </div>
+  </div>
+
+  <!-- 部署DB -->
+  <div class="db-card dept" id="card-dept">
+    <div class="db-icon">🏢</div>
+    <div class="db-name purple">部署DB</div>
+    <div class="db-count">12部署</div>
+    <div class="props">
+      <div class="prop"><span class="prop-type title">Title</span> 部署名</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> Members DB ↔</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> ナレッジDB ↔</div>
+    </div>
+  </div>
+
+  <!-- ナレッジDB -->
+  <div class="db-card knowledge" id="card-knowledge">
+    <div class="db-icon">💡</div>
+    <div class="db-name orange">ナレッジDB</div>
+    <div class="db-count">全社共有ナレッジ</div>
+    <div class="props">
+      <div class="prop"><span class="prop-type title">Title</span> タイトル</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> 部署DB ↔</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> Members DB ↔（担当者）</div>
+      <div class="prop"><span class="prop-type auto">Auto</span> 作成者 / 最終更新日時</div>
+      <div class="prop"><span class="prop-type url">URL</span> 元リンク</div>
+      <div class="prop"><span class="prop-type check">Check</span> 📌 ページTOP固定表示</div>
+    </div>
+  </div>
+
+  <!-- 店舗/事務所情報DB -->
+  <div class="db-card store" id="card-store">
+    <div class="db-icon">🏪</div>
+    <div class="db-name green">店舗/事務所情報DB</div>
+    <div class="db-count">7拠点</div>
+    <div class="props">
+      <div class="prop"><span class="prop-type title">Title</span> 店舗名</div>
+      <div class="prop"><span class="prop-type multi">Multi</span> エリア</div>
+    </div>
+  </div>
+
+  <!-- ブランドDB -->
+  <div class="db-card brand" id="card-brand">
+    <div class="db-icon">📦</div>
+    <div class="db-name yellow">ブランドDB</div>
+    <div class="db-count">400+ブランド</div>
+    <div class="props">
+      <div class="prop"><span class="prop-type title">Title</span> ブランド名</div>
+      <div class="prop"><span class="prop-type multi">Multi</span> カテゴリ</div>
+      <div class="prop"><span class="prop-type multi">Multi</span> 取引種別</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> 国内代理店DB ↔</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> Members DB ↔</div>
+    </div>
+  </div>
+
+  <!-- 国内代理店DB -->
+  <div class="db-card agent" id="card-agent">
+    <div class="db-icon">🏬</div>
+    <div class="db-name cyan">国内代理店DB</div>
+    <div class="db-count">代理店一覧</div>
+    <div class="props">
+      <div class="prop"><span class="prop-type title">Title</span> 代理店名</div>
+      <div class="prop"><span class="prop-type rel">Relation</span> ブランドDB ↔</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-title">凡例</div>
+  <div class="legend-item">
+    <div class="legend-line" style="background:var(--orange);"></div>
+    <span>Relation（双方向 ↔）</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--blue);"></div>
+    <span>Members DB</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--purple);"></div>
+    <span>部署DB</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--orange);"></div>
+    <span>ナレッジDB</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--green);"></div>
+    <span>店舗/事務所情報DB</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--yellow);"></div>
+    <span>ブランドDB</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot" style="background:var(--cyan);"></div>
+    <span>国内代理店DB</span>
+  </div>
+  <div class="legend-item" style="margin-left:auto;">
+    <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);">↔ = 双方向Relation</span>
+  </div>
+</div>
+
+<script>
+// Draw SVG arrows between cards
+window.addEventListener('load', () => {
+  const diagram = document.getElementById('diagram');
+  const rect = diagram.getBoundingClientRect();
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'arrows-layer');
+  svg.style.position = 'absolute';
+  svg.style.inset = '0';
+  svg.style.width = '100%';
+  svg.style.height = '100%';
+  svg.style.overflow = 'visible';
+  svg.style.pointerEvents = 'none';
+  diagram.style.position = 'relative';
+  diagram.appendChild(svg);
+
+  const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+
+  // Arrow markers
+  const colors = {
+    orange: '#f06a0f',
+    blue: '#4a8fff',
+    purple: '#a855f7',
+    green: '#22c55e',
+    yellow: '#eab308',
+    cyan: '#06b6d4',
+  };
+
+  Object.entries(colors).forEach(([name, color]) => {
+    const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+    marker.setAttribute('id', `arrow-${name}`);
+    marker.setAttribute('markerWidth', '6');
+    marker.setAttribute('markerHeight', '6');
+    marker.setAttribute('refX', '3');
+    marker.setAttribute('refY', '3');
+    marker.setAttribute('orient', 'auto');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M0,0 L0,6 L6,3 z');
+    path.setAttribute('fill', color);
+    marker.appendChild(path);
+    defs.appendChild(marker);
+  });
+  svg.appendChild(defs);
+
+  function getCenter(id) {
+    const el = document.getElementById(id);
+    const r = el.getBoundingClientRect();
+    const dr = diagram.getBoundingClientRect();
+    return {
+      x: r.left - dr.left + r.width / 2,
+      y: r.top - dr.top + r.height / 2,
+      top: r.top - dr.top,
+      bottom: r.top - dr.top + r.height,
+      left: r.left - dr.left,
+      right: r.left - dr.left + r.width,
+      w: r.width,
+      h: r.height,
+    };
+  }
+
+  function drawLine(x1, y1, x2, y2, color, label) {
+    const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+    // Curved path
+    const mx = (x1 + x2) / 2;
+    const my = (y1 + y2) / 2;
+    const dx = x2 - x1;
+    const dy = y2 - y1;
+    const len = Math.sqrt(dx*dx + dy*dy);
+    const cx = mx - dy * 0.15;
+    const cy = my + dx * 0.15;
+
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', `M${x1},${y1} Q${cx},${cy} ${x2},${y2}`);
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width', '1.5');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke-dasharray', '4 3');
+    path.setAttribute('opacity', '0.6');
+    path.setAttribute('marker-end', `url(#arrow-orange)`);
+    g.appendChild(path);
+
+    // Label
+    if (label) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', cx);
+      text.setAttribute('y', cy - 6);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('font-family', 'DM Mono, monospace');
+      text.setAttribute('font-size', '8');
+      text.setAttribute('fill', color);
+      text.setAttribute('opacity', '0.8');
+      text.textContent = label;
+      g.appendChild(text);
+    }
+
+    svg.appendChild(g);
+  }
+
+  // Draw connections
+  setTimeout(() => {
+    const m = getCenter('card-members');
+    const d = getCenter('card-dept');
+    const k = getCenter('card-knowledge');
+    const s = getCenter('card-store');
+    const b = getCenter('card-brand');
+    const a = getCenter('card-agent');
+
+    // Members ↔ 部署DB
+    drawLine(m.left + m.w*0.3, m.bottom, d.right, d.top + d.h*0.3, colors.purple, '↔');
+
+    // Members ↔ ナレッジDB（担当者）
+    drawLine(m.left + m.w*0.5, m.bottom, k.top === m.bottom ? k.x : k.left + k.w*0.5, k.top, colors.orange, '↔ 担当者');
+
+    // Members ↔ ブランドDB
+    drawLine(m.left, m.bottom, b.right, b.top, colors.yellow, '↔');
+
+    // 部署DB ↔ ナレッジDB
+    drawLine(d.right, d.top + d.h*0.5, k.left, k.top + k.h*0.5, colors.orange, '↔');
+
+    // ブランドDB ↔ 国内代理店DB
+    drawLine(b.right, b.top + b.h*0.5, a.left, a.top + a.h*0.5, colors.cyan, '↔');
+
+  }, 100);
+});
+</script>
+
+</body>
+</html>
