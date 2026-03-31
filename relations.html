@@ -3,298 +3,100 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLUE LUG — DB関係図 v4</title>
+<title>BLUE LUG — DB関係図 v5</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@300;400;700;900&display=swap');
-
   :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #1a1a1a;
-    --border: #2a2a2a;
-    --accent: #e8ff4a;
-    --accent2: #4affd4;
-    --accent3: #ff6b4a;
-    --text: #f0f0f0;
-    --text-muted: #666;
-    --text-dim: #999;
+    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff4a; --accent2: #4affd4;
+    --accent3: #ff6b4a; --text: #f0f0f0; --text-muted: #666; --text-dim: #999;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif;
-    min-height: 100vh;
-  }
-
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 56px;
-    display: flex; align-items: center; justify-content: space-between;
-    z-index: 100;
-  }
-  .nav-logo {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--accent);
-  }
-  .nav-back {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; min-height: 100vh; }
+  nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; z-index: 100; }
+  .nav-logo { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--accent); }
+  .nav-back { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
   .nav-back:hover { color: var(--accent); }
-
-  .page-header {
-    padding: 100px 2rem 60px;
-    max-width: 1400px;
-    margin: 0 auto;
-    border-bottom: 1px solid var(--border);
-  }
-  .page-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    margin-bottom: 1rem;
-  }
-  .page-title {
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.5rem;
-  }
+  .page-header { padding: 100px 2rem 60px; max-width: 1400px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .page-tag { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 1rem; }
+  .page-title { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
   .page-title em { font-style: normal; color: var(--accent); }
-  .page-date {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-
-  .diagram-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 60px 2rem;
-  }
-
-  /* DB NODES */
-  .db-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 3rem;
-  }
-
-  .db-node {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.5rem;
-    position: relative;
-    transition: border-color 0.2s;
-  }
+  .page-date { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--text-muted); }
+  .diagram-container { max-width: 1400px; margin: 0 auto; padding: 60px 2rem; }
+  .db-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
+  .db-node { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; position: relative; transition: border-color 0.2s; }
   .db-node:hover { border-color: var(--accent); }
   .db-node.hub { border-color: rgba(232,255,74,0.5); }
   .db-node.new-node { border-color: rgba(74,255,212,0.4); }
-  .db-node.deprecated { border-color: rgba(255,107,74,0.4); opacity: 0.7; }
   .db-node.experimental { border-color: rgba(74,255,212,0.3); border-style: dashed; }
-
-  .node-badge {
-    position: absolute;
-    top: 1rem; right: 1rem;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    padding: 2px 6px;
-    border-radius: 3px;
-  }
-  .badge-hub { background: rgba(232,255,74,0.15); color: var(--accent); }
-  .badge-new { background: rgba(74,255,212,0.15); color: var(--accent2); }
-  .badge-deprecated { background: rgba(255,107,74,0.15); color: var(--accent3); }
-  .badge-exp { background: rgba(74,255,212,0.1); color: var(--accent2); border: 1px dashed rgba(74,255,212,0.3); }
-
+  .db-node.removed { border-color: rgba(255,107,74,0.2); opacity: 0.4; }
+  .node-badge { position: absolute; top: 1rem; right: 1rem; font-family: 'Space Mono', monospace; font-size: 0.6rem; padding: 2px 6px; border-radius: 3px; }
+  .b-hub { background: rgba(232,255,74,0.15); color: var(--accent); }
+  .b-new { background: rgba(74,255,212,0.15); color: var(--accent2); }
+  .b-exp { background: rgba(74,255,212,0.1); color: var(--accent2); border: 1px dashed rgba(74,255,212,0.3); }
+  .b-done { background: rgba(255,107,74,0.15); color: var(--accent3); }
   .node-icon { font-size: 2rem; margin-bottom: 0.75rem; }
-  .node-name {
-    font-weight: 900;
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-  }
-  .node-count {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-  }
-  .node-props {
-    list-style: none;
-    margin-bottom: 1rem;
-  }
-  .node-props li {
-    font-size: 0.75rem;
-    color: var(--text-dim);
-    padding: 0.2rem 0;
-    display: flex; align-items: center; gap: 0.4rem;
-  }
-  .prop-type {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    padding: 1px 4px;
-    border-radius: 2px;
-    background: var(--surface2);
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
-  .prop-type.rel { background: rgba(232,255,74,0.1); color: var(--accent); }
-  .prop-type.auto { background: rgba(74,255,212,0.1); color: var(--accent2); }
-
-  .node-relations {
-    border-top: 1px solid var(--border);
-    padding-top: 0.75rem;
-  }
-  .node-relations-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-  }
-  .relation-tag {
-    display: inline-block;
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 3px;
-    margin: 2px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--text-dim);
-  }
-
-  /* RELATION MATRIX */
-  .matrix-section {
-    margin-top: 3rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--border);
-  }
-  .matrix-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-    letter-spacing: 0.1em;
-  }
-
-  .relation-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-  }
-  .relation-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1rem 1.25rem;
-    display: flex; align-items: center; gap: 1rem;
-  }
-  .rel-from {
-    font-size: 0.8rem;
-    font-weight: 700;
-    color: var(--accent);
-    min-width: 140px;
-  }
-  .rel-arrow {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    flex-shrink: 0;
-  }
-  .rel-to {
-    font-size: 0.8rem;
-    color: var(--text-dim);
-  }
-
-  /* LEGEND */
-  .legend {
-    margin-top: 3rem;
-    padding: 1.5rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    display: flex; gap: 2rem; flex-wrap: wrap;
-  }
-  .legend-item {
-    display: flex; align-items: center; gap: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
-  .legend-dot {
-    width: 12px; height: 12px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  footer {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: var(--text-muted);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    border-top: 1px solid var(--border);
-    margin-top: 4rem;
-  }
-
-  @media (max-width: 900px) {
-    .db-grid { grid-template-columns: 1fr 1fr; }
-    .relation-list { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 600px) {
-    .db-grid { grid-template-columns: 1fr; }
-  }
+  .node-name { font-weight: 900; font-size: 1rem; margin-bottom: 0.25rem; }
+  .node-count { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 1rem; }
+  .node-props { list-style: none; margin-bottom: 1rem; }
+  .node-props li { font-size: 0.75rem; color: var(--text-dim); padding: 0.2rem 0; display: flex; align-items: center; gap: 0.4rem; }
+  .pt { font-family: 'Space Mono', monospace; font-size: 0.6rem; padding: 1px 4px; border-radius: 2px; background: var(--surface2); color: var(--text-muted); flex-shrink: 0; }
+  .pt.r { background: rgba(232,255,74,0.1); color: var(--accent); }
+  .pt.a { background: rgba(74,255,212,0.1); color: var(--accent2); }
+  .node-relations { border-top: 1px solid var(--border); padding-top: 0.75rem; }
+  .node-relations-title { font-family: 'Space Mono', monospace; font-size: 0.6rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+  .rt { display: inline-block; font-size: 0.7rem; padding: 2px 8px; border-radius: 3px; margin: 2px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); }
+  .matrix-section { margin-top: 3rem; padding-top: 3rem; border-top: 1px solid var(--border); }
+  .matrix-title { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2rem; letter-spacing: 0.1em; }
+  .relation-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .relation-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 1rem; }
+  .rel-from { font-size: 0.8rem; font-weight: 700; color: var(--accent); min-width: 160px; }
+  .rel-arrow { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-muted); flex-shrink: 0; }
+  .rel-to { font-size: 0.8rem; color: var(--text-dim); }
+  .legend { margin-top: 3rem; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; display: flex; gap: 2rem; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--text-muted); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+  footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-family: 'Space Mono', monospace; font-size: 0.75rem; border-top: 1px solid var(--border); margin-top: 4rem; }
+  @media (max-width: 900px) { .db-grid { grid-template-columns: 1fr 1fr; } .relation-list { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .db-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="nav-logo">BLUE LUG / DB RELATION MAP v4</div>
+  <div class="nav-logo">BLUE LUG / DB RELATION MAP v5</div>
   <a href="index.html" class="nav-back">← マスタープランへ</a>
 </nav>
 
 <div class="page-header">
   <div class="page-tag">DB RELATION MAP</div>
   <h1 class="page-title">BLUE LUG<br><em>DB関係図</em></h1>
-  <div class="page-date">2026年3月20日時点 — v4更新</div>
+  <div class="page-date">2026年3月30日時点 — v5更新</div>
 </div>
 
 <div class="diagram-container">
-
   <div class="db-grid">
 
     <!-- Members DB -->
     <div class="db-node hub">
-      <div class="node-badge badge-hub">HUB</div>
+      <div class="node-badge b-hub">HUB</div>
       <div class="node-icon">👥</div>
       <div class="node-name">Members DB</div>
       <div class="node-count">68名</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> 氏名</li>
-        <li><span class="prop-type rel">Rel</span> 部署DB ↔</li>
-        <li><span class="prop-type rel">Rel</span> イベントDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> ブランドDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> スケジュールDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> 経理/総務DB ↔</li>
+        <li><span class="pt">Title</span> 氏名</li>
+        <li><span class="pt r">Rel</span> 部署DB ↔</li>
+        <li><span class="pt r">Rel</span> イベントDB ↔</li>
+        <li><span class="pt r">Rel</span> ブランドDB ↔</li>
+        <li><span class="pt r">Rel</span> スケジュールDB ↔</li>
+        <li><span class="pt r">Rel</span> 経理/総務DB ↔</li>
+        <li><span class="pt r">Rel</span> 縫製チームDB ↔</li>
+        <li><span class="pt r">Rel</span> デザインチームDB ↔</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">部署DB</span>
-        <span class="relation-tag">イベントDB</span>
-        <span class="relation-tag">ブランドDB</span>
-        <span class="relation-tag">スケジュールDB</span>
-        <span class="relation-tag">経理/総務DB</span>
+        <span class="rt">部署DB</span><span class="rt">イベントDB</span><span class="rt">ブランドDB</span>
+        <span class="rt">スケジュールDB</span><span class="rt">経理/総務DB</span>
+        <span class="rt">縫製チームDB</span><span class="rt">デザインチームDB</span>
       </div>
     </div>
 
@@ -304,12 +106,14 @@
       <div class="node-name">部署DB</div>
       <div class="node-count">12部署</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> 部署名</li>
-        <li><span class="prop-type rel">Rel</span> Members DB ↔</li>
+        <li><span class="pt">Title</span> 部署名</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt r">Rel</span> 縫製チームDB ↔</li>
+        <li><span class="pt r">Rel</span> デザインチームDB ↔</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">Members DB</span>
+        <span class="rt">Members DB</span><span class="rt">縫製チームDB</span><span class="rt">デザインチームDB</span>
       </div>
     </div>
 
@@ -319,12 +123,12 @@
       <div class="node-name">店舗/事務所情報DB</div>
       <div class="node-count">7拠点</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> 店舗名</li>
-        <li><span class="prop-type">Multi</span> エリア</li>
+        <li><span class="pt">Title</span> 店舗名</li>
+        <li><span class="pt">Multi</span> エリア</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">単独（Relation未設定）</span>
+        <span class="rt">単独（Relation未設定）</span>
       </div>
     </div>
 
@@ -334,19 +138,17 @@
       <div class="node-name">ブランドDB</div>
       <div class="node-count">400+ブランド</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> ブランド名</li>
-        <li><span class="prop-type">Multi</span> カテゴリ</li>
-        <li><span class="prop-type rel">Rel</span> 国内代理店DB ↔</li>
-        <li><span class="prop-type rel">Rel</span> Members DB ↔</li>
-        <li><span class="prop-type rel">Rel</span> イベントDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> スケジュールDB ↔</li>
+        <li><span class="pt">Title</span> ブランド名</li>
+        <li><span class="pt">Multi</span> カテゴリ</li>
+        <li><span class="pt r">Rel</span> 国内代理店DB ↔</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt r">Rel</span> イベントDB ↔</li>
+        <li><span class="pt r">Rel</span> スケジュールDB ↔</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">国内代理店DB</span>
-        <span class="relation-tag">Members DB</span>
-        <span class="relation-tag">イベントDB</span>
-        <span class="relation-tag">スケジュールDB</span>
+        <span class="rt">国内代理店DB</span><span class="rt">Members DB</span>
+        <span class="rt">イベントDB</span><span class="rt">スケジュールDB</span>
       </div>
     </div>
 
@@ -356,112 +158,139 @@
       <div class="node-name">国内メーカー/代理店DB</div>
       <div class="node-count">代理店一覧</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> 代理店名</li>
-        <li><span class="prop-type rel">Rel</span> ブランドDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> Members DB ↔</li>
+        <li><span class="pt">Title</span> 代理店名</li>
+        <li><span class="pt r">Rel</span> ブランドDB ↔</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">ブランドDB</span>
-        <span class="relation-tag">Members DB</span>
+        <span class="rt">ブランドDB</span><span class="rt">Members DB</span>
       </div>
     </div>
 
     <!-- スケジュールDB -->
     <div class="db-node new-node">
-      <div class="node-badge badge-new">NEW</div>
+      <div class="node-badge b-new">2026年分完了</div>
       <div class="node-icon">📅</div>
       <div class="node-name">スケジュールDB</div>
-      <div class="node-count">2026年分入力済み</div>
+      <div class="node-count">Notionカレンダー双方向連携</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> タイトル</li>
-        <li><span class="prop-type">Date</span> 日付（開始〜終了）</li>
-        <li><span class="prop-type">Multi</span> カテゴリ</li>
-        <li><span class="prop-type rel">Rel</span> イベントDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> ブランドDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> Members DB ↔</li>
+        <li><span class="pt">Title</span> タイトル</li>
+        <li><span class="pt">Date</span> 日付（開始〜終了）</li>
+        <li><span class="pt">Multi</span> カテゴリ</li>
+        <li><span class="pt r">Rel</span> イベントDB ↔</li>
+        <li><span class="pt r">Rel</span> ブランドDB ↔</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">イベントDB</span>
-        <span class="relation-tag">ブランドDB</span>
-        <span class="relation-tag">Members DB</span>
+        <span class="rt">イベントDB</span><span class="rt">ブランドDB</span><span class="rt">Members DB</span>
       </div>
     </div>
 
     <!-- イベントDB -->
     <div class="db-node new-node">
-      <div class="node-badge badge-new">NEW</div>
+      <div class="node-badge b-new">充実中</div>
       <div class="node-icon">🎪</div>
       <div class="node-name">イベントDB</div>
-      <div class="node-count">ノウハウ蓄積</div>
+      <div class="node-count">ノウハウ蓄積・BIKELORE登録済み</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> イベント名</li>
-        <li><span class="prop-type">Select</span> カテゴリ</li>
-        <li><span class="prop-type">Text</span> 開催時期</li>
-        <li><span class="prop-type rel">Rel</span> ブランドDB ↔</li>
-        <li><span class="prop-type rel">Rel</span> Members DB ↔</li>
-        <li><span class="prop-type rel">Rel</span> スケジュールDB ↔</li>
+        <li><span class="pt">Title</span> イベント名</li>
+        <li><span class="pt">Select</span> カテゴリ</li>
+        <li><span class="pt">Text</span> 開催時期</li>
+        <li><span class="pt r">Rel</span> ブランドDB ↔</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt r">Rel</span> スケジュールDB ↔</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">ブランドDB</span>
-        <span class="relation-tag">Members DB</span>
-        <span class="relation-tag">スケジュールDB</span>
+        <span class="rt">ブランドDB</span><span class="rt">Members DB</span><span class="rt">スケジュールDB</span>
       </div>
     </div>
 
     <!-- 経理/総務DB -->
     <div class="db-node new-node">
-      <div class="node-badge badge-new">NEW</div>
+      <div class="node-badge b-new">移行中</div>
       <div class="node-icon">💰</div>
       <div class="node-name">経理/総務DB</div>
-      <div class="node-count">既存Wiki移行</div>
+      <div class="node-count">既存Wiki移行中</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> タイトル</li>
-        <li><span class="prop-type rel">Rel</span> カテゴリDB ↔（テスト）</li>
-        <li><span class="prop-type rel">Rel</span> Members DB ↔</li>
-        <li><span class="prop-type auto">Auto</span> 最終更新日時</li>
+        <li><span class="pt">Title</span> タイトル</li>
+        <li><span class="pt r">Rel</span> カテゴリDB ↔（検証）</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt a">Auto</span> 最終更新日時</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONNECTS TO</div>
-        <span class="relation-tag">カテゴリDB（検証中）</span>
-        <span class="relation-tag">Members DB</span>
+        <span class="rt">カテゴリDB（検証中）</span><span class="rt">Members DB</span>
       </div>
     </div>
 
     <!-- カテゴリDB -->
     <div class="db-node experimental">
-      <div class="node-badge badge-exp">検証中</div>
+      <div class="node-badge b-exp">検証中</div>
       <div class="node-icon">🏷️</div>
       <div class="node-name">カテゴリDB</div>
       <div class="node-count">横断索引の新概念</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> カテゴリ名</li>
-        <li><span class="prop-type">Text</span> 説明</li>
-        <li><span class="prop-type rel">Rel</span> 経理/総務DB ↔（テスト）</li>
+        <li><span class="pt">Title</span> カテゴリ名</li>
+        <li><span class="pt">Text</span> 説明</li>
+        <li><span class="pt r">Rel</span> 経理/総務DB ↔（検証）</li>
       </ul>
       <div class="node-relations">
         <div class="node-relations-title">CONCEPT</div>
-        <span class="relation-tag">複数DBからRelation</span>
-        <span class="relation-tag">→ 自動横断索引</span>
+        <span class="rt">複数DBからRelation</span><span class="rt">→ 自動横断索引</span>
       </div>
     </div>
 
-    <!-- ナレッジDB -->
-    <div class="db-node deprecated">
-      <div class="node-badge badge-deprecated">廃止予定</div>
-      <div class="node-icon">💡</div>
-      <div class="node-name">ナレッジDB</div>
-      <div class="node-count">2件のみ残存</div>
+    <!-- 縫製チームDB -->
+    <div class="db-node new-node">
+      <div class="node-badge b-new">NEW</div>
+      <div class="node-icon">🧵</div>
+      <div class="node-name">縫製チームDB</div>
+      <div class="node-count">箱として準備完了</div>
       <ul class="node-props">
-        <li><span class="prop-type">Title</span> タイトル</li>
-        <li><span class="prop-type rel">Rel</span> 部署DB（廃止予定）</li>
-        <li><span class="prop-type rel">Rel</span> Members DB（廃止予定）</li>
+        <li><span class="pt">Title</span> タイトル</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt r">Rel</span> 部署DB ↔</li>
       </ul>
       <div class="node-relations">
-        <div class="node-relations-title">移行先</div>
-        <span class="relation-tag">スタッフ社販割引率 → 経理/総務DB</span>
+        <div class="node-relations-title">CONNECTS TO</div>
+        <span class="rt">Members DB</span><span class="rt">部署DB</span>
+      </div>
+    </div>
+
+    <!-- デザインチームDB -->
+    <div class="db-node new-node">
+      <div class="node-badge b-new">NEW</div>
+      <div class="node-icon">🎨</div>
+      <div class="node-name">デザインチームDB</div>
+      <div class="node-count">1件登録済み</div>
+      <ul class="node-props">
+        <li><span class="pt">Title</span> タイトル</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt r">Rel</span> 部署DB ↔</li>
+      </ul>
+      <div class="node-relations">
+        <div class="node-relations-title">CONNECTS TO</div>
+        <span class="rt">Members DB</span><span class="rt">部署DB</span>
+      </div>
+    </div>
+
+    <!-- 商品開発チームDB -->
+    <div class="db-node new-node">
+      <div class="node-badge b-new">NEW</div>
+      <div class="node-icon">🔨</div>
+      <div class="node-name">商品開発チームDB</div>
+      <div class="node-count">箱として準備完了</div>
+      <ul class="node-props">
+        <li><span class="pt">Title</span> タイトル</li>
+        <li><span class="pt r">Rel</span> Members DB ↔</li>
+        <li><span class="pt r">Rel</span> 部署DB ↔</li>
+      </ul>
+      <div class="node-relations">
+        <div class="node-relations-title">CONNECTS TO</div>
+        <span class="rt">Members DB</span><span class="rt">部署DB</span>
       </div>
     </div>
 
@@ -474,7 +303,7 @@
       <div class="relation-item">
         <div class="rel-from">Members DB</div>
         <div class="rel-arrow">↔</div>
-        <div class="rel-to">部署DB / イベントDB / ブランドDB / スケジュールDB / 経理/総務DB</div>
+        <div class="rel-to">部署DB / イベントDB / ブランドDB / スケジュールDB / 経理/総務DB / 縫製チームDB / デザインチームDB</div>
       </div>
       <div class="relation-item">
         <div class="rel-from">ブランドDB</div>
@@ -501,6 +330,11 @@
         <div class="rel-arrow">↔</div>
         <div class="rel-to">ブランドDB / Members DB</div>
       </div>
+      <div class="relation-item">
+        <div class="rel-from">縫製・デザイン・商品開発チームDB</div>
+        <div class="rel-arrow">↔</div>
+        <div class="rel-to">Members DB / 部署DB</div>
+      </div>
     </div>
   </div>
 
@@ -512,15 +346,11 @@
     </div>
     <div class="legend-item">
       <div class="legend-dot" style="background: rgba(74,255,212,0.5);"></div>
-      新規追加DB（v4）
+      新規追加DB（v5）
     </div>
     <div class="legend-item">
       <div class="legend-dot" style="background: rgba(74,255,212,0.3); border: 1px dashed rgba(74,255,212,0.5);"></div>
       検証中（実験的）
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot" style="background: rgba(255,107,74,0.4);"></div>
-      廃止予定
     </div>
     <div class="legend-item">
       <div class="legend-dot" style="background: var(--border);"></div>
@@ -531,9 +361,8 @@
 </div>
 
 <footer>
-  BLUE LUG DB RELATION MAP v4 — 2026.03.20<br>
+  BLUE LUG DB RELATION MAP v5 — 2026.03.30<br>
   <a href="index.html" style="color: var(--accent); text-decoration: none; margin-top: 0.5rem; display: inline-block;">← マスタープランへ戻る</a>
 </footer>
-
 </body>
 </html>
