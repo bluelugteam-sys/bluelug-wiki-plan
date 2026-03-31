@@ -3,384 +3,91 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLUE LUG — Notion Wiki マスタープラン v4</title>
+<title>BLUE LUG — Notion Wiki マスタープラン v5</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Noto+Sans+JP:wght@300;400;700;900&display=swap');
-
   :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #1a1a1a;
-    --border: #2a2a2a;
-    --accent: #e8ff4a;
-    --accent2: #4affd4;
-    --accent3: #ff6b4a;
-    --text: #f0f0f0;
-    --text-muted: #666;
-    --text-dim: #999;
+    --bg: #0a0a0a; --surface: #111111; --surface2: #1a1a1a;
+    --border: #2a2a2a; --accent: #e8ff4a; --accent2: #4affd4;
+    --accent3: #ff6b4a; --text: #f0f0f0; --text-muted: #666; --text-dim: #999;
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Noto Sans JP', sans-serif;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    background: rgba(10,10,10,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    height: 56px;
-    display: flex; align-items: center; justify-content: space-between;
-    z-index: 100;
-  }
-  .nav-logo {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
+  body { background: var(--bg); color: var(--text); font-family: 'Noto Sans JP', sans-serif; line-height: 1.6; overflow-x: hidden; }
+  nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 2rem; height: 56px; display: flex; align-items: center; justify-content: space-between; z-index: 100; }
+  .nav-logo { font-family: 'Space Mono', monospace; font-size: 0.85rem; color: var(--accent); }
   .nav-links { display: flex; gap: 2rem; }
-  .nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    transition: color 0.2s;
-  }
+  .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
   .nav-links a:hover { color: var(--accent); }
-
-  /* HERO */
-  .hero {
-    padding: 120px 2rem 80px;
-    max-width: 1200px;
-    margin: 0 auto;
-    border-bottom: 1px solid var(--border);
-  }
-  .hero-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent);
-    letter-spacing: 0.2em;
-    margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .hero-tag::before {
-    content: '';
-    display: inline-block;
-    width: 24px; height: 1px;
-    background: var(--accent);
-  }
-  .hero h1 {
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--accent);
-  }
-  .hero-desc {
-    color: var(--text-dim);
-    font-size: 1rem;
-    max-width: 600px;
-    font-weight: 300;
-  }
-  .hero-stats {
-    display: flex; gap: 3rem;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-  }
-  .stat-item { }
-  .stat-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 2rem;
-    color: var(--accent);
-    font-weight: 700;
-  }
-  .stat-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    margin-top: 0.25rem;
-  }
-
-  /* SECTION */
-  section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 80px 2rem;
-    border-bottom: 1px solid var(--border);
-  }
-  .section-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    letter-spacing: 0.2em;
-    margin-bottom: 0.75rem;
-  }
-  .section-title {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    margin-bottom: 3rem;
-  }
-  .section-title em {
-    font-style: normal;
-    color: var(--accent);
-  }
-
-  /* WIKI STRUCTURE */
-  .wiki-structure {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 2rem;
-  }
-  .wiki-sidebar {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
-  .wiki-sidebar-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-bottom: 1.5rem;
-    letter-spacing: 0.1em;
-  }
-  .wiki-item {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.85rem;
-    color: var(--text-dim);
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .wiki-item:last-child { border-bottom: none; }
-  .wiki-item.section-header {
-    color: var(--accent);
-    font-weight: 700;
-    font-size: 0.8rem;
-    margin-top: 0.5rem;
-    border-bottom: none;
-  }
-  .wiki-item.sub {
-    padding-left: 1rem;
-    font-size: 0.8rem;
-  }
-  .wiki-item.new::after {
-    content: 'NEW';
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    background: var(--accent);
-    color: #000;
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
-  .wiki-item.changed::after {
-    content: 'UPDATE';
-    font-family: 'Space Mono', monospace;
-    font-size: 0.6rem;
-    background: var(--accent2);
-    color: #000;
-    padding: 1px 4px;
-    border-radius: 2px;
-  }
-
-  .wiki-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .db-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    display: flex; align-items: flex-start; gap: 1rem;
-  }
-  .db-card.highlight {
-    border-color: var(--accent);
-  }
-  .db-card.new-card {
-    border-color: var(--accent2);
-  }
-  .db-icon { font-size: 1.5rem; flex-shrink: 0; }
-  .db-info { flex: 1; }
-  .db-name {
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-  }
-  .db-desc {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-  }
-  .db-tags {
-    display: flex; gap: 0.5rem; flex-wrap: wrap;
-    margin-top: 0.5rem;
-  }
-  .db-tag {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    padding: 2px 6px;
-    border-radius: 3px;
-    background: var(--surface2);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-  }
-  .db-tag.accent { background: rgba(232,255,74,0.1); color: var(--accent); border-color: rgba(232,255,74,0.3); }
-  .db-tag.accent2 { background: rgba(74,255,212,0.1); color: var(--accent2); border-color: rgba(74,255,212,0.3); }
-  .db-tag.accent3 { background: rgba(255,107,74,0.1); color: var(--accent3); border-color: rgba(255,107,74,0.3); }
-
-  /* ROADMAP */
-  .roadmap {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  .phase-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
-  .phase-card.active { border-color: var(--accent); }
-  .phase-num {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
-  }
-  .phase-title {
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-  .phase-status {
-    display: inline-block;
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    border-radius: 3px;
-    margin-bottom: 1rem;
-  }
-  .phase-status.done { background: rgba(232,255,74,0.15); color: var(--accent); }
-  .phase-status.active { background: rgba(74,255,212,0.15); color: var(--accent2); }
-  .phase-status.pending { background: var(--surface2); color: var(--text-muted); }
+  .hero { padding: 120px 2rem 80px; max-width: 1200px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.2em; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+  .hero-tag::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
+  .hero h1 { font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-desc { color: var(--text-dim); font-size: 1rem; max-width: 600px; font-weight: 300; }
+  .hero-stats { display: flex; gap: 3rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+  .stat-num { font-family: 'Space Mono', monospace; font-size: 2rem; color: var(--accent); font-weight: 700; }
+  .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; }
+  section { max-width: 1200px; margin: 0 auto; padding: 80px 2rem; border-bottom: 1px solid var(--border); }
+  .section-tag { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.2em; margin-bottom: 0.75rem; }
+  .section-title { font-size: clamp(1.5rem, 3vw, 2.5rem); font-weight: 900; letter-spacing: -0.02em; margin-bottom: 3rem; }
+  .section-title em { font-style: normal; color: var(--accent); }
+  .wiki-layout { display: grid; grid-template-columns: 260px 1fr; gap: 2rem; }
+  .wiki-sidebar { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; height: fit-content; }
+  .wiki-sidebar-title { font-family: 'Space Mono', monospace; font-size: 0.62rem; color: var(--text-muted); margin-bottom: 1.25rem; letter-spacing: 0.1em; }
+  .ws-header { font-size: 0.8rem; font-weight: 700; color: var(--accent); padding: 0.6rem 0 0.3rem; margin-top: 0.5rem; border-top: 1px solid var(--border); }
+  .ws-header:first-child { border-top: none; margin-top: 0; }
+  .ws-sub { font-size: 0.76rem; color: var(--text-dim); padding: 0.22rem 0 0.22rem 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+  .bn { font-family: 'Space Mono', monospace; font-size: 0.52rem; background: rgba(74,255,212,0.15); color: var(--accent2); padding: 1px 4px; border-radius: 2px; }
+  .bw { font-family: 'Space Mono', monospace; font-size: 0.52rem; background: rgba(232,255,74,0.1); color: var(--accent); padding: 1px 4px; border-radius: 2px; }
+  .db-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .db-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem 1.5rem; display: flex; align-items: flex-start; gap: 1rem; }
+  .db-card.c-new { border-color: rgba(74,255,212,0.35); }
+  .db-card.c-wip { border-color: rgba(232,255,74,0.25); border-style: dashed; }
+  .db-card.c-done { border-color: rgba(232,255,74,0.5); }
+  .db-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+  .db-name { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .db-desc { font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; }
+  .db-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.6rem; }
+  .dt { font-family: 'Space Mono', monospace; font-size: 0.6rem; padding: 2px 6px; border-radius: 3px; background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+  .dt.dn { background: rgba(74,255,212,0.1); color: var(--accent2); border-color: rgba(74,255,212,0.3); }
+  .dt.dw { background: rgba(232,255,74,0.08); color: var(--accent); border-color: rgba(232,255,74,0.2); }
+  .dt.dd { background: rgba(232,255,74,0.15); color: var(--accent); border-color: rgba(232,255,74,0.4); }
+  .roadmap { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .phase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+  .phase-card.active { border-color: var(--accent2); }
+  .phase-num { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+  .phase-title { font-weight: 700; font-size: 0.9rem; margin-bottom: 0.75rem; }
+  .ps { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.62rem; padding: 2px 8px; border-radius: 3px; margin-bottom: 1rem; }
+  .ps-done { background: rgba(232,255,74,0.15); color: var(--accent); }
+  .ps-active { background: rgba(74,255,212,0.15); color: var(--accent2); }
+  .ps-pending { background: var(--surface2); color: var(--text-muted); }
   .phase-items { list-style: none; }
-  .phase-items li {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-    padding: 0.3rem 0;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 0.5rem;
-  }
+  .phase-items li { font-size: 0.76rem; color: var(--text-muted); padding: 0.28rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
   .phase-items li:last-child { border-bottom: none; }
-  .phase-items li.done-item { color: var(--text-dim); }
-  .phase-items li.done-item::before { content: '✓'; color: var(--accent); font-size: 0.7rem; }
-  .phase-items li.active-item::before { content: '▶'; color: var(--accent2); font-size: 0.7rem; }
-  .phase-items li.pending-item::before { content: '○'; color: var(--border); font-size: 0.7rem; }
-
-  /* CHANGES */
-  .changes-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
-  .change-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
-  .change-type {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    padding: 2px 8px;
-    border-radius: 3px;
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
-  .change-type.added { background: rgba(74,255,212,0.15); color: var(--accent2); }
-  .change-type.revised { background: rgba(232,255,74,0.15); color: var(--accent); }
-  .change-type.removed { background: rgba(255,107,74,0.15); color: var(--accent3); }
-  .change-title {
-    font-weight: 700;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-  }
-  .change-desc {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  /* TODO */
-  .todo-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 1.5rem;
-  }
-  .todo-col { }
-  .todo-col-title {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--border);
-    margin-bottom: 1rem;
-  }
-  .todo-col-title.urgent { border-color: var(--accent3); color: var(--accent3); }
-  .todo-col-title.hold { border-color: var(--text-muted); color: var(--text-muted); }
-  .todo-col-title.mid { border-color: var(--accent2); color: var(--accent2); }
-  .todo-item {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    margin-bottom: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    display: flex; align-items: flex-start; gap: 0.5rem;
-  }
-  .todo-item::before { content: '⬜'; font-size: 0.75rem; flex-shrink: 0; }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 3rem 2rem;
-    color: var(--text-muted);
-    font-family: 'Space Mono', monospace;
-    font-size: 0.75rem;
-    border-top: 1px solid var(--border);
-  }
-
-  @media (max-width: 768px) {
-    .wiki-structure { grid-template-columns: 1fr; }
+  .ld { color: var(--text-dim) !important; }
+  .ld::before { content: '✓'; color: var(--accent); font-size: 0.7rem; }
+  .la::before { content: '▶'; color: var(--accent2); font-size: 0.7rem; }
+  .lp::before { content: '○'; color: var(--border); font-size: 0.7rem; }
+  .todo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .tc-title { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; padding-bottom: 0.75rem; border-bottom: 2px solid var(--border); margin-bottom: 1rem; }
+  .tc-title.u { border-color: var(--accent3); color: var(--accent3); }
+  .tc-title.h { border-color: var(--text-muted); color: var(--text-muted); }
+  .tc-title.m { border-color: var(--accent2); color: var(--accent2); }
+  .ti { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0.7rem 1rem; margin-bottom: 0.5rem; font-size: 0.78rem; color: var(--text-dim); display: flex; align-items: flex-start; gap: 0.5rem; }
+  .ti::before { content: '⬜'; font-size: 0.7rem; flex-shrink: 0; margin-top: 1px; }
+  footer { text-align: center; padding: 3rem 2rem; color: var(--text-muted); font-family: 'Space Mono', monospace; font-size: 0.75rem; border-top: 1px solid var(--border); }
+  @media (max-width: 900px) {
+    .wiki-layout { grid-template-columns: 1fr; }
     .roadmap { grid-template-columns: 1fr 1fr; }
-    .changes-grid { grid-template-columns: 1fr; }
     .todo-grid { grid-template-columns: 1fr; }
-    .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
   }
 </style>
 </head>
 <body>
-
 <nav>
-  <div class="nav-logo">BLUE LUG / NOTION WIKI v4</div>
+  <div class="nav-logo">BLUE LUG / NOTION WIKI v5</div>
   <div class="nav-links">
     <a href="#structure">構造</a>
-    <a href="#changes">変更点</a>
     <a href="#roadmap">ロードマップ</a>
     <a href="#todo">Todo</a>
     <a href="relations.html">DB関係図</a>
@@ -388,260 +95,198 @@
 </nav>
 
 <div class="hero">
-  <div class="hero-tag">MASTER PLAN — 2026.03.20 UPDATE</div>
-  <h1>BLUE LUG<br><em>社内Wiki</em><br>構想 v4</h1>
-  <p class="hero-desc">
-    v3からの主な変化：ナレッジDB廃止・イベントDB・スケジュールDB・経理/総務DB・カテゴリDB追加。各DBが役割を持ち横断的に連携する構造へ進化。
-  </p>
+  <div class="hero-tag">MASTER PLAN — 2026.03.30 UPDATE</div>
+  <h1>BLUE LUG<br><em>社内Wiki</em><br>構想 v5</h1>
+  <p class="hero-desc">v4からの主な変化：ナレッジDB完全廃止・商品開発セクション追加（縫製・デザイン・商品開発チームDB）・イベントDB充実中・Wikiアイデアメモ追加。「追加」から「充実・整理」フェーズへ移行。</p>
   <div class="hero-stats">
-    <div class="stat-item">
-      <div class="stat-num">68</div>
-      <div class="stat-label">メンバー</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">11</div>
-      <div class="stat-label">データベース</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">7</div>
-      <div class="stat-label">拠点</div>
-    </div>
-    <div class="stat-item">
-      <div class="stat-num">400+</div>
-      <div class="stat-label">ブランド</div>
-    </div>
+    <div><div class="stat-num">68</div><div class="stat-label">メンバー</div></div>
+    <div><div class="stat-num">14</div><div class="stat-label">データベース</div></div>
+    <div><div class="stat-num">7</div><div class="stat-label">拠点</div></div>
+    <div><div class="stat-num">400+</div><div class="stat-label">ブランド</div></div>
+    <div><div class="stat-num">6</div><div class="stat-label">セクション</div></div>
   </div>
 </div>
 
-<!-- STRUCTURE -->
 <section id="structure">
   <div class="section-tag">SECTION 01</div>
   <h2 class="section-title">Wiki <em>全体構造</em></h2>
-  <div class="wiki-structure">
+  <div class="wiki-layout">
     <div class="wiki-sidebar">
       <div class="wiki-sidebar-title">SIDEBAR STRUCTURE</div>
-      <div class="wiki-item section-header">📌 ピックアップ</div>
-      <div class="wiki-item sub">主要リンクを手動配置</div>
-      <div class="wiki-item section-header">📅 イベント</div>
-      <div class="wiki-item sub new">Notion Calendar（仮設置）</div>
-      <div class="wiki-item sub new">スケジュールDB 2026</div>
-      <div class="wiki-item sub new">イベントDB</div>
-      <div class="wiki-item section-header">👥 メンバー・組織</div>
-      <div class="wiki-item sub">Members DB</div>
-      <div class="wiki-item sub">部署DB</div>
-      <div class="wiki-item sub">店舗/事務所情報DB</div>
-      <div class="wiki-item section-header">📦 ブランド・取引先・外部サービス</div>
-      <div class="wiki-item sub">ブランドDB</div>
-      <div class="wiki-item sub">国内メーカー/代理店DB</div>
-      <div class="wiki-item section-header">💰 経理/総務</div>
-      <div class="wiki-item sub new">経理/総務DB</div>
-      <div class="wiki-item sub new">外部サービスDB（設計中）</div>
-      <div class="wiki-item section-header">🔧 社内Wiki管理スペース</div>
-      <div class="wiki-item sub">社内Wikiの構造と手順書</div>
-      <div class="wiki-item sub new">カテゴリDB</div>
-      <div class="wiki-item sub">データベースDB（管理用）</div>
+      <div class="ws-header">📌 ピックアップ</div>
+      <div class="ws-sub">主要リンクを手動配置</div>
+      <div class="ws-header">📅 イベント</div>
+      <div class="ws-sub">Notion Calendar</div>
+      <div class="ws-sub">スケジュールDB 2026</div>
+      <div class="ws-sub">イベントDB <span class="bw">充実中</span></div>
+      <div class="ws-header">👥 メンバー・組織</div>
+      <div class="ws-sub">Members DB</div>
+      <div class="ws-sub">部署DB</div>
+      <div class="ws-sub">店舗/事務所情報DB</div>
+      <div class="ws-header">📦 ブランド・取引先</div>
+      <div class="ws-sub">ブランドDB</div>
+      <div class="ws-sub">国内メーカー/代理店DB</div>
+      <div class="ws-header">💰 経理/総務</div>
+      <div class="ws-sub">経理/総務DB</div>
+      <div class="ws-sub">外部サービスDB <span class="bw">設計中</span></div>
+      <div class="ws-header">🔨 商品開発 <span class="bn">NEW</span></div>
+      <div class="ws-sub">縫製チームDB <span class="bn">NEW</span></div>
+      <div class="ws-sub">デザインチームDB <span class="bn">NEW</span></div>
+      <div class="ws-sub">商品開発チームDB <span class="bn">NEW</span></div>
+      <div class="ws-header">🔧 社内Wiki管理スペース</div>
+      <div class="ws-sub">社内Wikiの構造と手順書</div>
+      <div class="ws-sub">データベースDB（管理用）</div>
+      <div class="ws-sub">カテゴリDB <span class="bw">検証中</span></div>
+      <div class="ws-sub">📝 Wikiアイデアメモ <span class="bn">NEW</span></div>
     </div>
-    <div class="wiki-detail">
-      <div class="db-card new-card">
+    <div class="db-cards">
+      <div class="db-card c-done">
         <div class="db-icon">📅</div>
         <div class="db-info">
           <div class="db-name">スケジュールDB</div>
-          <div class="db-desc">日程管理に特化したDB。イベント・入荷・発売・社内行事などを一元管理。カレンダービューで表示。NotionカレンダーとDBは双方向連携済み。</div>
-          <div class="db-tags">
-            <span class="db-tag accent2">NEW</span>
-            <span class="db-tag">カレンダービュー</span>
-            <span class="db-tag">双方向連携</span>
-            <span class="db-tag">→ イベントDB</span>
-            <span class="db-tag">→ ブランドDB</span>
-          </div>
+          <div class="db-desc">日程管理専用DB。Notionカレンダーと双方向連携済み。2026年分データ入力完了。カレンダービューで表示。</div>
+          <div class="db-tags"><span class="dt dd">2026年分完了</span><span class="dt dd">双方向連携</span><span class="dt">↔ イベントDB</span><span class="dt">↔ ブランドDB</span></div>
         </div>
       </div>
-      <div class="db-card new-card">
+      <div class="db-card c-wip">
         <div class="db-icon">🎪</div>
         <div class="db-info">
           <div class="db-name">イベントDB</div>
-          <div class="db-desc">毎年開催されるイベントのノウハウ蓄積に特化。日程ではなく「イベントの知見」を蓄積する場所。ページ本文に年ごとの記録を追記。</div>
-          <div class="db-tags">
-            <span class="db-tag accent2">NEW</span>
-            <span class="db-tag">ノウハウ蓄積</span>
-            <span class="db-tag">→ ブランドDB</span>
-            <span class="db-tag">→ Members DB</span>
-            <span class="db-tag">→ スケジュールDB</span>
-          </div>
+          <div class="db-desc">毎年開催イベントのノウハウ蓄積DB。BIKELORE・ブース出店イベント共通準備など充実中。原本1つ・各イベントページからリンクする運用を確立。</div>
+          <div class="db-tags"><span class="dt dw">充実中</span><span class="dt">BIKELORE登録済み</span><span class="dt">共通準備ページあり</span><span class="dt">↔ スケジュールDB</span><span class="dt">↔ ブランドDB</span></div>
         </div>
       </div>
-      <div class="db-card new-card">
+      <div class="db-card c-wip">
         <div class="db-icon">💰</div>
         <div class="db-info">
           <div class="db-name">経理/総務DB</div>
-          <div class="db-desc">既存WikiのコンテンツをV2に移行。労務・人事・経費・ツール・福利厚生などを管理。カテゴリDBとRelationで横断検索可能にする試み（テスト中）。</div>
-          <div class="db-tags">
-            <span class="db-tag accent2">NEW</span>
-            <span class="db-tag">既存Wiki移行</span>
-            <span class="db-tag">→ カテゴリDB（テスト）</span>
-            <span class="db-tag">→ Members DB</span>
-          </div>
+          <div class="db-desc">既存WikiのコンテンツをV2に移行中。労務・人事・経費・ツール・福利厚生など全社共通情報を管理。カテゴリDBとRelation検証中。</div>
+          <div class="db-tags"><span class="dt dw">移行中</span><span class="dt">↔ カテゴリDB（検証）</span><span class="dt">↔ Members DB</span></div>
         </div>
       </div>
-      <div class="db-card new-card">
+      <div class="db-card c-new">
+        <div class="db-icon">🔨</div>
+        <div class="db-info">
+          <div class="db-name">商品開発セクション（縫製・デザイン・商品開発チームDB）</div>
+          <div class="db-desc">将来の拡張に備えた箱として作成。デザインチームDBにはすでに「各イベントオリジナル商材の制作」が登録済み。</div>
+          <div class="db-tags"><span class="dt dn">NEW</span><span class="dt">箱として準備完了</span><span class="dt">↔ Members DB</span><span class="dt">↔ 部署DB</span></div>
+        </div>
+      </div>
+      <div class="db-card c-wip">
         <div class="db-icon">🏷️</div>
         <div class="db-info">
-          <div class="db-name">カテゴリDB</div>
-          <div class="db-desc">複数DBが同じカテゴリを参照することで、カテゴリDBが自動的に全社横断の索引になる新しい試み。まず経理/総務DBで検証中。</div>
-          <div class="db-tags">
-            <span class="db-tag accent2">NEW・検証中</span>
-            <span class="db-tag">横断検索</span>
-            <span class="db-tag">← 経理/総務DB</span>
-          </div>
+          <div class="db-name">カテゴリDB（検証中）</div>
+          <div class="db-desc">複数DBが同カテゴリをRelationで参照→カテゴリページが自動的に横断索引になる新概念。経理/総務DBで検証中。結果次第で他DBへ展開判断。</div>
+          <div class="db-tags"><span class="dt dw">検証中</span><span class="dt">← 経理/総務DB</span></div>
         </div>
       </div>
-      <div class="db-card" style="border-color: var(--accent3);">
-        <div class="db-icon">💡</div>
+      <div class="db-card c-new">
+        <div class="db-icon">📝</div>
         <div class="db-info">
-          <div class="db-name">ナレッジDB <span style="color: var(--accent3); font-size:0.75rem;">→ 廃止予定</span></div>
-          <div class="db-desc">当初の「全社索引」構想だったが、Notionの横断検索・各DB充実により役割が薄れた。既存2件を移行後に廃止予定。</div>
-          <div class="db-tags">
-            <span class="db-tag accent3">廃止予定</span>
-            <span class="db-tag">スタッフ社販割引率 → 経理/総務DBへ</span>
-          </div>
+          <div class="db-name">Wikiアイデアメモ</div>
+          <div class="db-desc">思いついたアイデアを即メモして作業の流れを止めない仕組み。月次で見直して実装するか保留するかを判断する運用。</div>
+          <div class="db-tags"><span class="dt dn">NEW</span><span class="dt">アイデア管理</span><span class="dt">月次レビュー</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CHANGES -->
-<section id="changes">
-  <div class="section-tag">SECTION 02</div>
-  <h2 class="section-title">v3からの<em>主な変更点</em></h2>
-  <div class="changes-grid">
-    <div class="change-card">
-      <div class="change-type added">ADDED</div>
-      <div class="change-title">スケジュールDB + Notionカレンダー</div>
-      <div class="change-desc">日程管理専用DBを新設。Notionカレンダーと双方向連携。カレンダー上での直接入力がDBに反映される。2026年分のデータ入力済み。</div>
-    </div>
-    <div class="change-card">
-      <div class="change-type added">ADDED</div>
-      <div class="change-title">イベントDB（ノウハウ蓄積）</div>
-      <div class="change-desc">毎年開催イベントのノウハウを蓄積するDB。スケジュール管理と分離し「知見の蓄積」に特化。ページ本文に年ごとの記録を追記する運用。</div>
-    </div>
-    <div class="change-card">
-      <div class="change-type added">ADDED</div>
-      <div class="change-title">経理/総務DB</div>
-      <div class="change-desc">既存WikiのコンテンツをV2に移行。労務・人事・経費・精算・ツール・福利厚生など全社共通の経理総務情報を一元管理。</div>
-    </div>
-    <div class="change-card">
-      <div class="change-type added">ADDED</div>
-      <div class="change-title">カテゴリDB（新概念・検証中）</div>
-      <div class="change-desc">複数DBが同カテゴリをRelationで参照することで、カテゴリページが自動的に横断索引になる試み。まず経理/総務DBで検証中。</div>
-    </div>
-    <div class="change-card">
-      <div class="change-type revised">REVISED</div>
-      <div class="change-title">Wiki構造の再編</div>
-      <div class="change-desc">「ナレッジ」セクションを廃止し「イベント」「経理/総務」セクションを新設。ピックアップは手動リンク管理に変更。</div>
-    </div>
-    <div class="change-card">
-      <div class="change-type removed">REMOVED</div>
-      <div class="change-title">ナレッジDB（廃止予定）</div>
-      <div class="change-desc">全社索引としての役割をNotionの横断検索・各DB充実で代替できると判断。既存2件を各DBに移行後に廃止予定。</div>
-    </div>
-  </div>
-</section>
-
-<!-- ROADMAP -->
 <section id="roadmap">
-  <div class="section-tag">SECTION 03</div>
+  <div class="section-tag">SECTION 02</div>
   <h2 class="section-title">実装<em>ロードマップ</em></h2>
   <div class="roadmap">
     <div class="phase-card">
       <div class="phase-num">PHASE 01</div>
       <div class="phase-title">DB基盤の構築</div>
-      <div class="phase-status done">✅ 完了</div>
+      <div class="ps ps-done">✅ 完了</div>
       <ul class="phase-items">
-        <li class="done-item">Members DB（68名）</li>
-        <li class="done-item">店舗/事務所情報DB</li>
-        <li class="done-item">国内代理店DB</li>
-        <li class="done-item">ブランドDB（400件）</li>
-        <li class="done-item">Wikiホーム整備</li>
-        <li class="done-item">GitHub Pages公開</li>
+        <li class="ld">Members DB（68名）</li>
+        <li class="ld">店舗/事務所情報DB</li>
+        <li class="ld">国内代理店DB</li>
+        <li class="ld">ブランドDB（400件）</li>
+        <li class="ld">Wikiホーム整備</li>
+        <li class="ld">GitHub Pages公開</li>
       </ul>
     </div>
     <div class="phase-card active">
       <div class="phase-num">PHASE 02</div>
-      <div class="phase-title">DB拡張 & 運用開始</div>
-      <div class="phase-status active">▶ 進行中</div>
+      <div class="phase-title">DB拡張 & 充実</div>
+      <div class="ps ps-active">▶ 進行中</div>
       <ul class="phase-items">
-        <li class="done-item">スケジュールDB作成</li>
-        <li class="done-item">イベントDB作成</li>
-        <li class="done-item">経理/総務DB作成</li>
-        <li class="done-item">カテゴリDB（検証中）</li>
-        <li class="active-item">イベントDBの中身を埋める</li>
-        <li class="active-item">ブランド↔代理店 Relation</li>
-        <li class="pending-item">ナレッジDB廃止</li>
+        <li class="ld">スケジュールDB作成・入力</li>
+        <li class="ld">イベントDB作成</li>
+        <li class="ld">経理/総務DB作成</li>
+        <li class="ld">商品開発セクション作成</li>
+        <li class="ld">ナレッジDB廃止</li>
+        <li class="la">イベントDBの中身を埋める</li>
+        <li class="la">ブランド↔代理店 Relation</li>
+        <li class="lp">既存Wiki仕分け・移行</li>
       </ul>
     </div>
     <div class="phase-card">
       <div class="phase-num">PHASE 03</div>
       <div class="phase-title">全社展開</div>
-      <div class="phase-status pending">⬜ 予定</div>
+      <div class="ps ps-pending">⬜ 予定</div>
       <ul class="phase-items">
-        <li class="pending-item">既存Wiki→新Wikiに切り替え</li>
-        <li class="pending-item">メンバーへの使い方共有</li>
-        <li class="pending-item">顔写真・担当業務入力</li>
-        <li class="pending-item">新入社員向けページ作成</li>
-        <li class="pending-item">スケジュール入力の全社展開</li>
+        <li class="lp">既存Wiki→新Wikiに切り替え</li>
+        <li class="lp">メンバーへの使い方共有</li>
+        <li class="lp">顔写真・担当業務入力</li>
+        <li class="lp">新入社員向けページ作成</li>
+        <li class="lp">スケジュール入力の全社展開</li>
+        <li class="lp">既存Wiki仕分け各部署分担</li>
       </ul>
     </div>
     <div class="phase-card">
       <div class="phase-num">PHASE 04</div>
       <div class="phase-title">定着 & 発展</div>
-      <div class="phase-status pending">⬜ 将来</div>
+      <div class="ps ps-pending">⬜ 将来</div>
       <ul class="phase-items">
-        <li class="pending-item">備品管理DB</li>
-        <li class="pending-item">外部サービスDB</li>
-        <li class="pending-item">Talknote→Notion連携</li>
-        <li class="pending-item">シフト管理DB検討</li>
-        <li class="pending-item">AI活用の拡張</li>
+        <li class="lp">備品管理DB</li>
+        <li class="lp">外部サービスDB</li>
+        <li class="lp">入荷・発売管理DB</li>
+        <li class="lp">Talknote→Notion連携</li>
+        <li class="lp">シフト管理DB検討</li>
+        <li class="lp">AI活用の拡張</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- TODO -->
 <section id="todo">
-  <div class="section-tag">SECTION 04</div>
+  <div class="section-tag">SECTION 03</div>
   <h2 class="section-title">現在の<em>Todo</em></h2>
   <div class="todo-grid">
-    <div class="todo-col">
-      <div class="todo-col-title urgent">PRIORITY — 直近</div>
-      <div class="todo-item">イベントDBの中身を埋める（既存Wikiから移行）</div>
-      <div class="todo-item">ブランドDB × 代理店DB Relation入力（モトクロス27件から）</div>
-      <div class="todo-item">ミズタニ自転車ブランドリストとPOSの照合</div>
-      <div class="todo-item">国内代理店DBの担当者（Members DB）紐づけ</div>
-      <div class="todo-item">ナレッジDB廃止（2件を各DBに移行後）</div>
+    <div>
+      <div class="tc-title u">PRIORITY — 直近</div>
+      <div class="ti">イベントDBの中身を埋める（MADE BIKE SHOW・SWIFT CAMPOUT・台北ショーなど）</div>
+      <div class="ti">ブランドDB × 代理店DB Relation入力（モトクロス27件から）</div>
+      <div class="ti">ミズタニ自転車ブランドリストとPOSの照合</div>
+      <div class="ti">国内代理店DBの担当者（Members DB）紐づけ</div>
+      <div class="ti">データベースDBに縫製・デザイン・商品開発チームDBを追加</div>
     </div>
-    <div class="todo-col">
-      <div class="todo-col-title hold">HOLD — 保留中</div>
-      <div class="todo-item">カテゴリDB検証結果を踏まえて他DBへの展開判断</div>
-      <div class="todo-item">外部サービスDB（プロパティ設計・パスワード運用方針）</div>
-      <div class="todo-item">備品管理DB（設計・作成）</div>
-      <div class="todo-item">Talknote商品スケジュール→NotionスケジュールDBの連携方法検討</div>
-      <div class="todo-item">新入社員向けページの設計・作成</div>
+    <div>
+      <div class="tc-title h">HOLD — 保留中</div>
+      <div class="ti">カテゴリDB検証結果を踏まえた他DBへの展開判断</div>
+      <div class="ti">外部サービスDB（プロパティ設計・パスワード運用方針）</div>
+      <div class="ti">備品管理DB（設計・作成）</div>
+      <div class="ti">Talknote商品スケジュール→Notion連携検討</div>
+      <div class="ti">新入社員向けページの設計・作成</div>
+      <div class="ti">既存Wiki仕分け作業（全社展開時に各部署と分担）</div>
     </div>
-    <div class="todo-col">
-      <div class="todo-col-title mid">MID-TERM — 中期</div>
-      <div class="todo-item">Wiki構造の最終整理</div>
-      <div class="todo-item">既存Wikiからの切り替え準備</div>
-      <div class="todo-item">全社展開・メンバーへの使い方共有</div>
-      <div class="todo-item">スケジュールDB入力を全社に広げる</div>
+    <div>
+      <div class="tc-title m">MID-TERM — 中期</div>
+      <div class="ti">Wiki構造の最終整理</div>
+      <div class="ti">既存Wikiからの切り替え準備</div>
+      <div class="ti">全社展開・メンバーへの使い方共有</div>
+      <div class="ti">スケジュールDB入力を全社に広げる</div>
     </div>
   </div>
 </section>
 
 <footer>
-  BLUE LUG NOTION WIKI MASTER PLAN v4 — 2026.03.20<br>
+  BLUE LUG NOTION WIKI MASTER PLAN v5 — 2026.03.30<br>
   <a href="relations.html" style="color: var(--accent); text-decoration: none; margin-top: 0.5rem; display: inline-block;">→ DB関係図を見る</a>
 </footer>
-
 </body>
 </html>
